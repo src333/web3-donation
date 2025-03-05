@@ -1,18 +1,22 @@
-const hre = require('hardhat');
+const hre = require("hardhat");
+// 0x5FC8d32690cc91D4c39d9d3abcBD16989F875707 , everytime we recompile and redeploy we need the new contract add to intercat with front-end 
 
 async function main() {
-
-    const CrowdFunding = await hre.ethers.getContractFactory("CrowdFunding")
+    // Get the contract factory
+    const CrowdFunding = await hre.ethers.getContractFactory("CrowdFunding");
+    
+    // Deploy the contract
+    console.log("Deploying contract...");
     const crowdFunding = await CrowdFunding.deploy();
 
-    await CrowdFunding.deployed();
+    // Wait for the contract to be deployed
+    await crowdFunding.waitForDeployment();
 
-    console.log(`CrowdFunding deployed to:" ${crowdFunding.address}`);
-}   
+    // Access the deployed contract's address using .target()
+    console.log(`CrowdFunding deployed to: ${crowdFunding.target}`);
+}
 
-main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.log(error);
-        process.exit(1);
-    });
+main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});
