@@ -8,7 +8,7 @@ import { CrowdFundingABI, CrowdFundingAddress } from "./contants";
 // fetching smart contract 
 
 const fetchContract = (singerOrProvider) => 
-    new ethers.Contract(CrowdFundingAddres, CrowdFundingABI, singerOrProvider);
+    new ethers.Contract(CrowdFundingAddress, CrowdFundingABI, singerOrProvider);
 
 export const CrowdFundingContext = React.createContext();
 
@@ -133,24 +133,27 @@ export const CrowdFundingProvider = ({children}) => {
 
     // wallet connect 
     const checkIfWalletConnected = async () => {
-        try{
-            if(!window.ethereum)
-                return setOpenError(true) , setError("install metamask");
-
+        try {
+            if (!window.ethereum) {
+                console.log("MetaMask not installed");
+                return;
+            }
+    
             const accounts = await window.ethereum.request({
                 method: "eth_accounts",
             });
-
-            if (accounts.length){
+    
+            if (accounts.length > 0) {
                 setCurrentAccount(accounts[0]);
+                console.log("Wallet already connected:", accounts[0]);
+            } else {
+                console.log("No connected accounts found.");
             }
-            else {
-                console.log("no acount found");
-            }
-        }catch (error){
-            console.log("something went wrong whilst connecting to your wallet");
+        } catch (error) {
+            console.error("Error checking wallet connection:", error);
         }
     };
+    
 
     useEffect(() => {
         checkIfWalletConnected();
@@ -158,18 +161,28 @@ export const CrowdFundingProvider = ({children}) => {
 
     // connect to wallet 
     const connectWallet = async () => {
-        try{
-            if(!window.ethereum)
-                return console.log("install metamask");
-
+        try {
+            if (!window.ethereum) {
+                alert("Please install MetaMask to use this feature.");
+                return;
+            }
+    
             const accounts = await window.ethereum.request({
-                method: "eth_accounts",
+                method: "eth_requestAccounts",
             });
-            setCurrentAccount(accounts[0]);
-        }catch(error){
-            console.log("error while connecting to wallet ");
+    
+            if (accounts.length > 0) {
+                setCurrentAccount(accounts[0]);
+                console.log("Connected Account:", accounts[0]);
+            } else {
+                console.log("No accounts found.");
+            }
+        } catch (error) {
+            console.error("Error while connecting to wallet:", error);
         }
     };
+    
+
 
     return (
         <CrowdFundingContext.Provider
