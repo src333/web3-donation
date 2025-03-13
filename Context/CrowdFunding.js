@@ -42,7 +42,9 @@ export const CrowdFundingProvider = ({children}) => {
 
 
     const getCampaigns = async ()=> {
-        const provider = new ethers.providers.JsonRpcProvider();
+        //const provider = new ethers.providers.JsonRpcProvider();
+        const provider = new ethers.JsonRpcProvider();
+
         const contract = fetchContract(provider);
 
         const campaigns = await contract.getCampaigns();
@@ -63,7 +65,9 @@ export const CrowdFundingProvider = ({children}) => {
     };
 
     const getUserCampaigns = async () => {
-        const provider = new ethers.providers.JsonRpcProvider();
+        //const provider = new ethers.providers.JsonRpcProvider();
+        const provider = new ethers.JsonRpcProvider();
+
         const contract = fetchContract(provider); 
 
         const allCampaigns = await contract.getCampaigns();
@@ -114,7 +118,9 @@ export const CrowdFundingProvider = ({children}) => {
 
 
     const getDonation = async (pId) => {
-        const provider = new ethers.providers.JsonRpcProvider();
+        //const provider = new ethers.providers.JsonRpcProvider();
+        const provider = new ethers.JsonRpcProvider();
+
         const contract = fetchContract(provider);
         const donations = await contract.getDonators(pId);
         const numerOfDonations = donations[0].length; 

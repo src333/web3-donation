@@ -39,6 +39,7 @@ const index = () => {
         titleData="All Listed Campaign"
         allcampaign={allcampaign}
         setOpenModel={setOpenModel}
+        setDonate={setDonateCampaign}
       />
 
       <Card

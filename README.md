@@ -38,3 +38,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+
+
+
+
+///////////
+
+1. to get here i used the command "npm create next-app ./" to create the directory 
+2. then i ran "npm run dev" , to see the defual page 
+3. i removed contents fron global.css file as ill be making my own and deleted home.modules.css files 
+4. i will deleted this current read me files and copy my process in the new one hardhat will create when we download its dependies 
+5. i will also delete the api folder in pages , _document.js and remove contents in index.js the start fresh 
+6. installed tailwind via "npm install tailwindcss @tailwindcss/postcss postcss"  or " npm install -D tailwindcss postcss autoprefixer" in the terminal , the 
+7. follow the tailwind installation steps for a next.js project and i manually created tailwind.js and post.config.mjs as stated in their documentation 
+8. install hardat via npm i hardhat , change hardhat version from "^2.22.19" to ^2.13.0
+9. initalise hardhat via "npx hardhat init" , configure it to use js and install recommended packages 
+10. in terminal run "npm i ether" and "npm i ether web3modal"
+11. ive created a file called componenets to split up logic of the webpage into parts via componenets that will be called in the _app.js file in pages folder , also created a context folder for later use 
+12. i have implemented the logic for the fist contracts 
+13. i have developed the backend functionality that we will use to interact with the smart contract in the crowdfunding.js file 
+14. i realised i accidently installed the wrong package , i installed ether not ethers , so i had to uninstall it user the command - "npm unitall ether" and install ethers using "npm i ethers"
+15. i have fully implemented to footer component with responsive design 
+16. i have fully implemented footer componenet with responsive desgin 
+17. i implemented the backend index thats going to be the main part of the page between the header and footer but when rendering it , there was an error because my ethers package is V6 and the commands i am using is only suitable for ethers v5 so i had to unistall ethers again using the commanf "npm uninstall ethers" and reinstall ether v5 using "npm i ethers@5.7.2"
