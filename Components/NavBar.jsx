@@ -41,15 +41,16 @@ const NavBar = () => {
               {!currentAccount && (
                 <ul className="flex items-center hidden space-x-8 lg:flex">
                   <li>
-                    <button
-                      onClick={()=> connectWallet()}
-                      className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded
-                      shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none background "
-                      aria-label="Sign up"
-                      title="Sign up"
-                    >
-                      Connect Wallet
-                    </button>
+                  <button
+                    onClick={() => connectWallet()}
+                    className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white 
+                      bg-purple-600 hover:bg-purple-700 active:scale-95 transition-all duration-200 ease-in-out 
+                      rounded shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    aria-label="Connect Wallet"
+                    title="Connect Wallet"
+                  >
+                    Connect Wallet
+                  </button>
                   </li>
                 </ul>
               )}
