@@ -10,8 +10,8 @@ const NavBar = () => {
   return (
    <div className="backgroundMain">
       <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
-          <div className="relative flex items-centre justify-between">
-              <div className="flec items-centre">
+          <div className="relative flex items-center justify-between">
+              <div className="flex items-center">
                 <a
                   href="/"
                   aria-label="Company"
@@ -30,7 +30,7 @@ const NavBar = () => {
                         href="/"
                         aria-label="our product"
                         title="Our product"
-                        className="font-medium tracking-wide text-gray-10 transition-colors duration-200 hover:text-teal-accent-400"
+                        className="font-medium tracking-wide text-gray-300 transition-colors duration-200 hover:text-teal-accent-400" // for the tab colours 
                         >
                           {el}
                       </a>
