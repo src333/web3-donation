@@ -34,7 +34,8 @@ export const CrowdFundingProvider = ({children}) => {
                 description,
                 //ethers.utils.parseUnits(amount, 18), 
                 ethers.parseUnits(amount, 18),
-                new Date(deadline).getTime()
+                //new Date(deadline).getTime()
+                Math.floor(new Date(deadline).getTime() / 1000) // ai gave me this solution 
             );
             await transaction.wait();
             console.log("contracy call success", transaction);
@@ -56,11 +57,11 @@ export const CrowdFundingProvider = ({children}) => {
             owner: campaign.owner,
             title: campaign.title,
             describe: campaign.description,
-            target: ethers.utils.formatEther(campaign.target.toString()),
+            //target: ethers.utils.formatEther(campaign.target.toString()),
+            target: ethers.formatEther(campaign.target),
             deadline: campaign.deadline.toNumber(),
-            amountCollected: ethers.utils.formatEther(
-                campaign.amountCollected.toString()
-            ),
+            //amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+            amountCollected: ethers.formatEther(campaign.amountCollected), 
             pId: i,
         }));
 
@@ -70,33 +71,25 @@ export const CrowdFundingProvider = ({children}) => {
     const getUserCampaigns = async () => {
         //const provider = new ethers.providers.JsonRpcProvider();
         const provider = new ethers.JsonRpcProvider();
-
         const contract = fetchContract(provider); 
-
         const allCampaigns = await contract.getCampaigns();
-
         const accounts = await window.ethereum.request({
             method: "eth_accounts",
-
         });
         const currentUser = accounts[0];
-
         const filteredCampaigns = allCampaigns.filter(
             (campaign) => 
                 campaign.owner === "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707" // make it dynamic later 
-
         );
-
         const userData = filteredCampaigns.map((campaign,i ) => ({
             owner: campaign.owner,
             title: campaign.title,
             description: campaign.description,
-            target: ethers.utils.formatEther(campaign.target.toString()),
-            amountCollected: ethers.utils.formatEther(
-                campaign.amountCollected.toString()
-            ),
+            //target: ethers.utils.formatEther(campaign.target.toString()),
+            //amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+            target: ethers.formatEther(campaign.target), 
+            amountCollected: ethers.formatEther(campaign.amountCollected),
             pId: i, 
-
         }));
 
         return userData;
@@ -134,7 +127,8 @@ export const CrowdFundingProvider = ({children}) => {
         for (let i = 0; i< numerOfDonations; i++){
             parsedDonations.push({
                 donator: donations[0][i],
-                donation: ethers.utils.formatEther(donations[1][i].toString()),
+                //donation: ethers.utils.formatEther(donations[1][i].toString()),
+                donation: ethers.formatEther(donations[1][i]),
             });
         }
 
