@@ -56,10 +56,11 @@ export const CrowdFundingProvider = ({children}) => {
         const parsedCampaigns = campaigns.map((campaign,i) => ({
             owner: campaign.owner,
             title: campaign.title,
-            describe: campaign.description,
+            description: campaign.description,
             //target: ethers.utils.formatEther(campaign.target.toString()),
             target: ethers.formatEther(campaign.target),
-            deadline: campaign.deadline.toNumber(),
+            //deadline: campaign.deadline.toNumber(),
+            deadline: Number(campaign.deadline),
             //amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
             amountCollected: ethers.formatEther(campaign.amountCollected), 
             pId: i,

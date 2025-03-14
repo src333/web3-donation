@@ -15,7 +15,7 @@ const index = () => {
   const [allcampaign, setAllcampaign] = useState();
   const [usecampaign, setUsercampaign]= useState();
 
-  useEffect(() => {
+  /*useEffect(() => {
     const getCampaignsData = getCampaigns();
     const userCampaignsData= getUserCampaigns();
     return async () => {
@@ -24,7 +24,19 @@ const index = () => {
       setAllcampaign(allData);
       setUsercampaign(userData);
     } ;
+  }, []); */
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const allData = await getCampaigns(); 
+      const userData = await getUserCampaigns();
+      setAllcampaign(allData);
+      setUsercampaign(userData);
+    };
+  
+    fetchData(); // Call the async function
   }, []);
+  
 
   // donation popup model
   const [openModel , setOpenModel] = useState(false);
