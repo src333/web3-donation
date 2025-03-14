@@ -18,10 +18,12 @@ export const CrowdFundingProvider = ({children}) => {
 
     const createCampaign = async (campaign) => {
         const {title , description , amount , deadline} = campaign; 
-        const web3Modal = new web3Modal();
+        const web3Modal = new Web3Modal();
         const connection = await web3Modal.connect();
-        const provider = new ethers.provider.Web3Provider(connection);
-        const signer = provider.getSigner();
+        //const provider = new ethers.provider.Web3Provider(connection);
+        const provider = new ethers.BrowserProvider(connection);
+        //const signer = provider.getSigner();
+        const signer = await provider.getSigner();
         const contract= fetchContract(signer);
         
         console.log(currentAccount);
@@ -30,7 +32,8 @@ export const CrowdFundingProvider = ({children}) => {
                 currentAccount ,
                 title , 
                 description,
-                ethers.utils.parseUnits(amount, 18), 
+                //ethers.utils.parseUnits(amount, 18), 
+                ethers.parseUnits(amount, 18),
                 new Date(deadline).getTime()
             );
             await transaction.wait();
@@ -102,12 +105,15 @@ export const CrowdFundingProvider = ({children}) => {
     const donate = async (pId, amount) => {
         const web3Modal = new Web3Modal();
         const connection = await web3Modal.connect();
-        const provider = new ethers.providers.Web3Provider(connection);
-        const signer = provider.getSigner();
+        //const provider = new ethers.providers.Web3Provider(connection);
+        const provider = new ethers.BrowserProvider(connection);
+        //const signer = provider.getSigner();
+        const signer = await provider.getSigner();
         const contract = fetchContract(signer);
 
         const campaignData = await contract.donateToCampaign(pId , {
-            value: ethers.utils.parseEther(amount),
+            //value: ethers.utils.parseEther(amount),
+            value: ethers.parseEther(amount),
         });
 
         await campaignData.wait();
@@ -120,7 +126,6 @@ export const CrowdFundingProvider = ({children}) => {
     const getDonation = async (pId) => {
         //const provider = new ethers.providers.JsonRpcProvider();
         const provider = new ethers.JsonRpcProvider();
-
         const contract = fetchContract(provider);
         const donations = await contract.getDonators(pId);
         const numerOfDonations = donations[0].length; 
