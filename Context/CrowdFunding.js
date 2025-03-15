@@ -199,7 +199,8 @@ export const CrowdFundingProvider = ({children}) => {
                 getCampaigns,
                 getUserCampaigns,
                 donate,
-                getDonation,
+                //getDonation,
+                getDonations: getDonation, 
                 connectWallet
             }}
         >
