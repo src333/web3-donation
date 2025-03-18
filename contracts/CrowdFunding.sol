@@ -26,8 +26,9 @@ contract CrowdFunding {
     ) public returns (uint256) {
         Campaign storage campaign = campaigns[numberOfCampaigns];
         require(
-            campaign.deadline < block.timestamp,
-            "the deadline should be set the future as this date has passed. "
+            //campaign.deadline < block.timestamp,
+            _deadline > block.timestamp, // can change it back later if not working
+            "the deadline should be set the future as this date has passed."
         );
 
         campaign.owner = _owner;
@@ -43,6 +44,8 @@ contract CrowdFunding {
     }
 
     function donateToCampaign(uint256 _id) public payable {
+        // require(_id < numberOfCampaigns, "Campaign does not exist."); // remove if doesnt work
+        require(msg.value > 0, "Donation amount must be greater than zero."); // this check can remove later
         uint256 amount = msg.value;
         Campaign storage campaign = campaigns[_id];
         campaign.donators.push(msg.sender);

@@ -11,9 +11,12 @@ async function main() {
 
     // Wait for the contract to be deployed
     await crowdFunding.waitForDeployment();
+    
 
     // Access the deployed contract's address using .target()
-    console.log(`CrowdFunding deployed to: ${crowdFunding.target}`);
+    //console.log(`CrowdFunding deployed to: ${crowdFunding.target}`);
+    //console.log(`CrowdFunding deployed to: ${crowdFunding.address}`);
+    console.log(`CrowdFunding deployed to: ${await crowdFunding.getAddress()}`);
 }
 
 main().catch((error) => {

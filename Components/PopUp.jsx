@@ -13,13 +13,27 @@ const PopUp = ({setOpenModel , donate , donateFunction , getDonations}) => {
         }
     };
 
-    useEffect(() => {
+    /*useEffect(() => {
         const donationsListData = getDonations(donate.pId);
         return async () => {
             const donationData = await donationsListData;
             setallDonationData(donationData);
         };
-    }, []);
+    }, []);*/ 
+
+    useEffect(() => {
+        const fetchDonations = async () => {
+            try {
+                const donationData = await getDonations(donate.pId);
+                setallDonationData(donationData);
+            } catch (error) {
+                console.error("Error fetching donations:", error);
+            }
+        };
+    
+        fetchDonations();
+    }, [donate.pId]); // Ensure it updates when campaign ID changes
+    
 
     return (
         <>

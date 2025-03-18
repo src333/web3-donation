@@ -34,10 +34,11 @@ export const CrowdFundingProvider = ({children}) => {
                 description,
                 //ethers.utils.parseUnits(amount, 18), 
                 ethers.parseUnits(amount, 18),
-                //new Date(deadline).getTime()
-                Math.floor(new Date(deadline).getTime() / 1000) // ai gave me this solution 
+                new Date(deadline).getTime()
+                //Math.floor(new Date(deadline).getTime() / 1000) // ai gave me this solution 
             );
             await transaction.wait();
+            location.reload();
             console.log("contracy call success", transaction);
         } catch (error) {
             console.log("contract call failure", error);
@@ -80,8 +81,12 @@ export const CrowdFundingProvider = ({children}) => {
         const currentUser = accounts[0];
         const filteredCampaigns = allCampaigns.filter(
             (campaign) => 
-                campaign.owner === "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707" // make it dynamic later 
+                campaign.owner === "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" // make it dynamic later 
         );
+        /*const filteredCampaigns = allCampaigns.filter(
+            (campaign) => campaign.owner.toLowerCase() === currentAccount.toLowerCase()
+        );*/
+        
         const userData = filteredCampaigns.map((campaign,i ) => ({
             owner: campaign.owner,
             title: campaign.title,
@@ -111,13 +116,13 @@ export const CrowdFundingProvider = ({children}) => {
         });
 
         await campaignData.wait();
-        location.reload;
+        location.reload();
 
         return campaignData;
     };
 
 
-    const getDonation = async (pId) => {
+    const getDonations = async (pId) => {
         //const provider = new ethers.providers.JsonRpcProvider();
         const provider = new ethers.JsonRpcProvider();
         const contract = fetchContract(provider);
@@ -200,7 +205,7 @@ export const CrowdFundingProvider = ({children}) => {
                 getUserCampaigns,
                 donate,
                 //getDonation,
-                getDonations: getDonation, 
+                getDonations, 
                 connectWallet
             }}
         >
