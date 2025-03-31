@@ -4,7 +4,7 @@ import Menu from "./Menu";
 import { CrowdFundingContext } from "../Context/CrowdFunding";
 
 const NavBar = () => {
-  const {currentAccount ,connectWallet} = useContext(CrowdFundingContext);
+  const {currentAccount ,connectWallet , isAdmin} = useContext(CrowdFundingContext);
   const [isMenuOpen , setIsMenuOpen] = useState(false);
   const menuList = ["white paper", "project","donation","members"];
   return (
@@ -38,22 +38,33 @@ const NavBar = () => {
                   ))}
                 </ul>
               </div>
-              {!currentAccount && (
-                <ul className="flex items-center hidden space-x-8 lg:flex">
-                  <li>
-                  <button
-                    onClick={() => connectWallet()}
-                    className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white 
+              <ul className="flex items-center hidden space-x-8 lg:flex">
+                <li>
+                  {currentAccount ? (
+                    <p className="text-gray-300 font-semibold flex items-center gap-2">
+                      <span>
+                        Connected: {currentAccount.slice(0, 6)}...{currentAccount.slice(-4)}
+                      </span>
+                      {isAdmin && (
+                        <span className="bg-purple-700 text-black text-xs px-2 py-1 rounded-md font-bold tracking-wide">
+                          Admin Account
+                        </span>
+                      )}
+                    </p>
+                  ) : (
+                    <button
+                      onClick={() => connectWallet()}
+                      className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white 
                       bg-purple-600 hover:bg-purple-700 active:scale-95 transition-all duration-200 ease-in-out 
                       rounded shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    aria-label="Connect Wallet"
-                    title="Connect Wallet"
-                  >
-                    Connect Wallet
-                  </button>
-                  </li>
-                </ul>
-              )}
+                      aria-label="Connect Wallet"
+                      title="Connect Wallet"
+                    >
+                      Connect Wallet
+                    </button>
+                  )}
+                </li>
+              </ul>
 
               <div className="lg:hidden z-40">
                 <button
@@ -117,17 +128,29 @@ const NavBar = () => {
                           </li>
                         ))}
                         <li>
-                          <a 
-                            href="/"
-                            className="inline-flex items-center background justify-center w-full h-12 px-6 font-medium
-                             tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-40 
-                             hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                            aria-label="Sign up"
-                            title="Sign up"
-                          >
-                            Connect Wallet 
-                          </a>
+                          {currentAccount ? (
+                            <div className="flex flex-col gap-2 items-start text-sm text-gray-800">
+                              <span className="font-semibold">
+                                Connected: {currentAccount.slice(0, 6)}...{currentAccount.slice(-4)}
+                              </span>
+                              {isAdmin && (
+                                <span className="bg-purple-700 text-black px-2 py-1 rounded-md text-xs font-semibold">
+                                  Admin Account
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <button 
+                              onClick={connectWallet}
+                              className="inline-flex items-center justify-center w-full h-12 px-6 font-medium
+                                tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-600 
+                                hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+                            >
+                              Connect Wallet
+                            </button>
+                          )}
                         </li>
+
                       </ul>
                     </nav>
                   </div>

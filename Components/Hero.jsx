@@ -1,6 +1,12 @@
-import React, {useState} from 'react'
+//import React, {useState} from 'react'
+//import { useContext } from "react"; // remove 
+import React, { useContext, useState } from "react";
+import { CrowdFundingContext } from "../Context/CrowdFunding"; // remove 
+
+
 
 const Hero = ({titleData , createCampaign}) => {
+    const { isAdmin } = useContext(CrowdFundingContext); // remove 
     const [campaign , setCampaign] = useState ({
         title: "",
         description: "",
@@ -61,6 +67,7 @@ const Hero = ({titleData , createCampaign}) => {
                             </a>
                         </div>
                             <div className="w-full max-w-xl xl:px-8 xl:w-5/12">
+                            {isAdmin ? (
                                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
                                     <h3 className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
                                         Campaign
@@ -178,6 +185,18 @@ const Hero = ({titleData , createCampaign}) => {
                                         </p>
                                     </form>
                                 </div>
+                            ) : (
+                                <div className="bg-white rounded-lg shadow-lg p-6 sm:p-10 text-center max-w-sm sm:max-w-md mx-auto">
+                                    <h3 className="mb-3 text-lg sm:text-xl font-bold text-red-600 flex items-center justify-center gap-2">
+                                        <span>Restricted Access</span> <span>🚫</span>
+                                    </h3>
+                                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                                        You must be an admin to create campaigns.<br />
+                                        If you think this is a mistake, please contact the project owner.
+                                    </p>
+                                </div>
+
+                                )}
                             </div>
                     </div>
                 </div>
