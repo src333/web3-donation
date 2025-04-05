@@ -15,14 +15,28 @@ export const CrowdFundingContext = React.createContext();
 export const CrowdFundingProvider = ({children}) => {
     const titleData = "Crowd Funding Contract";
     const [currentAccount , setCurrentAccount] = useState("");
+    const [isAdmin, setIsAdmin] = useState(false);
 
-    // remove if this doesnt work ----------------------------------------------------------
+
+    /* remove if this doesnt work ----------------------------------------------------------
     const adminWallets = [
-        "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266", // Replace with actual admin wallet(s)
+        "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266", // Replace with actual admin wallets
       ];
+    */ //to here -------------------------------------------------------------------------------
+
+    const checkAdminStatus = async (account) => {
+        if (!account) return;
+        try {
+          const provider = new ethers.JsonRpcProvider(); // or use BrowserProvider if needed
+          const contract = fetchContract(provider);
+          const result = await contract.isAdmin(account);
+          setIsAdmin(result);
+        } catch (error) {
+          console.error("Failed to check admin status:", error);
+          setIsAdmin(false);
+        }
+    };
       
-      const [isAdmin, setIsAdmin] = useState(false);
-    // to here -------------------------------------------------------------------------------
 
     const createCampaign = async (campaign) => {
         const {title , description , amount , deadline} = campaign; 
@@ -37,7 +51,7 @@ export const CrowdFundingProvider = ({children}) => {
         console.log(currentAccount);
         try{
             const transaction = await contract.createCampaign(
-                currentAccount ,
+                //currentAccount ,
                 title , 
                 description,
                 //ethers.utils.parseUnits(amount, 18), 
@@ -89,7 +103,9 @@ export const CrowdFundingProvider = ({children}) => {
         const currentUser = accounts[0];
         const filteredCampaigns = allCampaigns.filter(
             (campaign) => 
-                campaign.owner === "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" // make it dynamic later 
+                campaign.owner?.toLowerCase() === currentUser?.toLowerCase()
+            
+               // campaign.owner === "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" // make it dynamic later 
         );
         /*const filteredCampaigns = allCampaigns.filter(
             (campaign) => campaign.owner.toLowerCase() === currentAccount.toLowerCase()
@@ -165,10 +181,11 @@ export const CrowdFundingProvider = ({children}) => {
             if (accounts.length > 0) {
                 setCurrentAccount(accounts[0]);
                 console.log("Wallet already connected:", accounts[0]);
-                // remove this is it doesnt work ---------------
+                await checkAdminStatus(accounts[0]);
+                /* remove this is it doesnt work ---------------
                 const lowerCased = accounts[0].toLowerCase();
                 setIsAdmin(adminWallets.includes(lowerCased));
-                // -----------------------------------------------
+                */ //-----------------------------------------------
             } else {
                 console.log("No connected accounts found.");
             }
@@ -183,13 +200,13 @@ export const CrowdFundingProvider = ({children}) => {
         //connectWallet();
     }, []);
 
-    // remove if doesnt work --------------------------------------------------------------
+    /* remove if doesnt work --------------------------------------------------------------
     useEffect(() => {
         if (currentAccount) {
           setIsAdmin(adminWallets.includes(currentAccount.toLowerCase()));
         }
       }, [currentAccount]);
-    // ---------------------------------------------------------------------------------------
+    */ //---------------------------------------------------------------------------------------
 
     // connect to wallet 
     const connectWallet = async () => {
@@ -206,7 +223,8 @@ export const CrowdFundingProvider = ({children}) => {
             if (accounts.length > 0) {
                 setCurrentAccount(accounts[0]);
                 console.log("Connected Account:", accounts[0]);
-                setIsAdmin(adminWallets.includes(accounts[0].toLowerCase())); // remove if not work ----------------
+                //setIsAdmin(adminWallets.includes(accounts[0].toLowerCase())); // remove if not work ----------------
+                await checkAdminStatus(accounts[0]);
             } else {
                 console.log("No accounts found.");
             }

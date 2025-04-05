@@ -72,8 +72,8 @@ const PopUp = ({setOpenModel , donate , donateFunction , getDonations}) => {
 
                             {allDonationData?.map((donate, i)=> ( 
                                 <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                                    {i + 1}: {donate.donation} {""}
-                                    {donate.donator.slice(0,35)}
+                                    {i + 1}: {donate.donation} ETH - {""}
+                                    {donate.donator.slice(0,43)}
                                 </p>
                             ))}
                         </div>
