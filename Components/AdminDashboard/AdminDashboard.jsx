@@ -1,0 +1,35 @@
+import React from "react";
+import StatsPanel from "./StatsPanel";
+
+
+const AdminDashboard = () => {
+  return (
+    <div className="min-h-screen bg-gray-100 px-6 py-10">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
+
+        {/* Stats section */}
+        <StatsPanel />
+
+        {/* Future sections */}
+        <div className="mt-10">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Campaign Management</h2>
+          {/* Add CampaignTable.jsx here later */}
+          <div className="p-4 bg-white shadow rounded-lg text-gray-600">
+            (Campaign list will go here)
+          </div>
+        </div>
+
+        <div className="mt-10">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Proposal Voting</h2>
+          {/* Add ProposalManager.jsx here later */}
+          <div className="p-4 bg-white shadow rounded-lg text-gray-600">
+            (Proposal system will go here)
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminDashboard;

@@ -71,3 +71,7 @@ developer logs: iteration 1
 26. i have update crowdfunding.sol to apply security best practises using openzeppelins security contract , also i create another contract called badreciever.sol to use as part of testing against Reentrancy issues
 
 27. updates test.js with new unit test to check the new securty changes
+
+28. i create a new route to naviagte to the admin dashboard via dashboard.js
+29. create a bunch of components need for the dashboard in the AdminDashboard folder within the componenets directory
+30. i ran "npm install recharts" to use to develop my charts components

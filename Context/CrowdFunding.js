@@ -93,37 +93,42 @@ export const CrowdFundingProvider = ({children}) => {
     };
 
     const getUserCampaigns = async () => {
-        //const provider = new ethers.providers.JsonRpcProvider();
-        const provider = new ethers.JsonRpcProvider();
-        const contract = fetchContract(provider); 
-        const allCampaigns = await contract.getCampaigns();
-        const accounts = await window.ethereum.request({
+        try {
+          if (typeof window === "undefined" || !window.ethereum) {
+            console.warn("MetaMask not available.");
+            return [];
+          }
+      
+          const provider = new ethers.JsonRpcProvider();
+          const contract = fetchContract(provider); 
+          const allCampaigns = await contract.getCampaigns();
+      
+          const accounts = await window.ethereum.request({
             method: "eth_accounts",
-        });
-        const currentUser = accounts[0];
-        const filteredCampaigns = allCampaigns.filter(
-            (campaign) => 
-                campaign.owner?.toLowerCase() === currentUser?.toLowerCase()
-            
-               // campaign.owner === "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" // make it dynamic later 
-        );
-        /*const filteredCampaigns = allCampaigns.filter(
-            (campaign) => campaign.owner.toLowerCase() === currentAccount.toLowerCase()
-        );*/
-        
-        const userData = filteredCampaigns.map((campaign,i ) => ({
+          });
+      
+          const currentUser = accounts[0];
+      
+          const filteredCampaigns = allCampaigns.filter(
+            (campaign) => campaign.owner.toLowerCase() === currentUser.toLowerCase()
+          );
+      
+          const userData = filteredCampaigns.map((campaign, i) => ({
             owner: campaign.owner,
             title: campaign.title,
             description: campaign.description,
-            //target: ethers.utils.formatEther(campaign.target.toString()),
-            //amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
-            target: ethers.formatEther(campaign.target), 
+            target: ethers.formatEther(campaign.target),
             amountCollected: ethers.formatEther(campaign.amountCollected),
-            pId: i, 
-        }));
-
-        return userData;
+            pId: i,
+          }));
+      
+          return userData;
+        } catch (error) {
+          console.error("Failed to fetch user campaigns:", error);
+          return [];
+        }
     };
+      
 
     const donate = async (pId, amount) => {
         const web3Modal = new Web3Modal();

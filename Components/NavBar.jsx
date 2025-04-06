@@ -6,7 +6,9 @@ import { CrowdFundingContext } from "../Context/CrowdFunding";
 const NavBar = () => {
   const {currentAccount ,connectWallet , isAdmin} = useContext(CrowdFundingContext);
   const [isMenuOpen , setIsMenuOpen] = useState(false);
-  const menuList = ["white paper", "project","donation","members"];
+  //const menuList = ["white paper", "project","donation","members"];
+  const baseMenuList = ["white paper", "project", "donation", "members"];
+  const menuList = isAdmin ? [...baseMenuList, "dashboard"] : baseMenuList;
   return (
    <div className="backgroundMain">
       <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -27,12 +29,12 @@ const NavBar = () => {
                   {menuList.map((el , i) => (
                     <li key={i+1}>
                       <a
-                        href="/"
-                        aria-label="our product"
-                        title="Our product"
-                        className="font-medium tracking-wide text-gray-300 transition-colors duration-200 hover:text-teal-accent-400" // for the tab colours 
-                        >
-                          {el}
+                        href={`/${el.toLowerCase().replace(/\s+/g, "-")}`} // e.g., "Admin Dashboard" → "/admin-dashboard"
+                        aria-label={el}
+                        title={el}
+                        className="font-medium tracking-wide text-gray-300 transition-colors duration-200 hover:text-teal-accent-400"
+                      >
+                        {el}
                       </a>
                     </li>
                   ))}
@@ -117,16 +119,15 @@ const NavBar = () => {
                         {menuList.map((el ,i) => (
                           <li key={i + 1}>
                             <a
-                              href="/"
-                              aria-label="Our product"
-                              title="Our product"
-                              className="font-medium tracking-wide text-gray-700 transition-colors duration-200
-                              hover:text-deep-purple-accent-400"
+                              href={`/${el.toLowerCase().replace(/\s+/g, "-")}`} // same logic as desktop
+                              aria-label={el}
+                              title={el}
+                              className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                             >
                               {el}
                             </a>
                           </li>
-                        ))}
+                        ))}                       
                         <li>
                           {currentAccount ? (
                             <div className="flex flex-col gap-2 items-start text-sm text-gray-800">
