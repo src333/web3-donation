@@ -38,7 +38,7 @@ const TotalEthPieChart = () => {
   }, []);
 
   return (
-    <div className="bg-white mt-10 p-6 rounded-lg shadow-md">
+    <div className="bg-white mt-10 p-6 rounded-lg shadow-md h-[360px] flex flex-col justify-between">
       <h3 className="text-lg font-semibold mb-4 text-gray-800">Fundraising Progress</h3>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -46,8 +46,8 @@ const TotalEthPieChart = () => {
             data={chartData}
             cx="50%"
             cy="50%"
-            innerRadius={70}
-            outerRadius={110}
+            innerRadius={60}
+            outerRadius={88}
             fill="#8884d8"
             paddingAngle={2}
             dataKey="value"

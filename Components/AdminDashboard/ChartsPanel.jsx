@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import TotalEthPieChart from "./TotalEthPieChart"; 
+import CampaignPieChart from "./CampaignPieChart";
 
 const ChartsPanel = ({ data }) => {
     return (
@@ -28,7 +29,10 @@ const ChartsPanel = ({ data }) => {
         </div>
   
         {/* Pie/Donut Chart */}
-        <TotalEthPieChart />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <TotalEthPieChart />
+            <CampaignPieChart />
+        </div>
       </div>
     );
 };
