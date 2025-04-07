@@ -20,7 +20,7 @@ const AdminDashboard = () => {
 
         {/* Future sections */}
         <div className="mt-10">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Campaign Management</h2>
+          <h2 className="text-xl font-bold text-gray-700 mb-4">Campaign Management</h2>
           {/* Add CampaignTable.jsx here later */}
             <CampaignTable/>
         </div>
