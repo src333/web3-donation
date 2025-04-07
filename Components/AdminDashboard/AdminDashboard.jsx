@@ -1,5 +1,9 @@
 import React from "react";
 import StatsPanel from "./StatsPanel";
+import DonationTimeline from "./DonationTimeline";
+import TransactionLedger from "./TransactionLedger";
+import CampaignTable from "./CampaignTable";
+
 
 
 const AdminDashboard = () => {
@@ -10,14 +14,15 @@ const AdminDashboard = () => {
 
         {/* Stats section */}
         <StatsPanel />
+        <DonationTimeline/>
+        <TransactionLedger />
+
 
         {/* Future sections */}
         <div className="mt-10">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Campaign Management</h2>
           {/* Add CampaignTable.jsx here later */}
-          <div className="p-4 bg-white shadow rounded-lg text-gray-600">
-            (Campaign list will go here)
-          </div>
+            <CampaignTable/>
         </div>
 
         <div className="mt-10">

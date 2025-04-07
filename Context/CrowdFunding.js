@@ -109,9 +109,14 @@ export const CrowdFundingProvider = ({children}) => {
       
           const currentUser = accounts[0];
       
-          const filteredCampaigns = allCampaigns.filter(
-            (campaign) => campaign.owner.toLowerCase() === currentUser.toLowerCase()
-          );
+          const filteredCampaigns = allCampaigns.filter((campaign) => {
+            return (
+              campaign?.owner &&
+              currentUser &&
+              campaign.owner.toLowerCase() === currentUser.toLowerCase()
+            );
+          });
+          
       
           const userData = filteredCampaigns.map((campaign, i) => ({
             owner: campaign.owner,
@@ -150,8 +155,49 @@ export const CrowdFundingProvider = ({children}) => {
         return campaignData;
     };
 
+    const updateCampaign = async (pId, title, description, target) => {
+        try {
+          const web3Modal = new Web3Modal();
+          const connection = await web3Modal.connect();
+          const provider = new ethers.BrowserProvider(connection);
+          const signer = await provider.getSigner();
+          const contract = fetchContract(signer);
+      
+          const tx = await contract.updateCampaign(
+            pId,
+            title,
+            description,
+            ethers.parseUnits(target, 18)
+          );
+      
+          await tx.wait();
+          console.log("Campaign updated");
+        } catch (error) {
+          console.error("Failed to update campaign:", error);
+        }
+      };
+      
 
-    const getDonations = async (pId) => {
+
+      const deleteCampaign = async (pId) => {
+        try {
+          const web3Modal = new Web3Modal();
+          const connection = await web3Modal.connect();
+          const provider = new ethers.BrowserProvider(connection);
+          const signer = await provider.getSigner();
+          const contract = fetchContract(signer);
+      
+          const tx = await contract.deleteCampaign(pId);
+          await tx.wait();
+          console.log("Campaign deleted");
+        } catch (error) {
+          console.error("Failed to delete campaign:", error);
+        }
+      };
+      
+
+
+    /*const getDonations = async (pId) => {
         //const provider = new ethers.providers.JsonRpcProvider();
         const provider = new ethers.JsonRpcProvider();
         const contract = fetchContract(provider);
@@ -164,12 +210,34 @@ export const CrowdFundingProvider = ({children}) => {
                 donator: donations[0][i],
                 //donation: ethers.utils.formatEther(donations[1][i].toString()),
                 donation: ethers.formatEther(donations[1][i]),
+                timestamp: Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 30),
             });
         }
 
         return parsedDonations;
             
-    };
+    };*/
+
+    const getDonations = async (pId) => {
+        const provider = new ethers.JsonRpcProvider();
+        const contract = fetchContract(provider);
+      
+        try {
+          const [donators, donations, timestamps] = await contract.getDonators(pId);
+      
+          const parsedDonations = donators.map((donator, i) => ({
+            donator,
+            donation: ethers.formatEther(donations[i]),
+            timestamp: Number(timestamps[i]) * 1000, // Convert to milliseconds for JS Date
+          }));
+      
+          return parsedDonations;
+        } catch (error) {
+          console.error("Failed to get donations:", error);
+          return [];
+        }
+      };
+      
 
     // wallet connect 
     const checkIfWalletConnected = async () => {
@@ -253,7 +321,9 @@ export const CrowdFundingProvider = ({children}) => {
                 donate,
                 //getDonation,
                 getDonations, 
-                connectWallet
+                connectWallet,
+                updateCampaign,
+                deleteCampaign,
             }}
         >
             {children}

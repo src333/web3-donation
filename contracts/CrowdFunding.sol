@@ -359,6 +359,7 @@ contract CrowdFunding is ReentrancyGuard {
         uint256 amountCollected;
         address[] donators;
         uint256[] donations;
+        uint256[] timestamps;
     }
 
     mapping(uint256 => Campaign) public campaigns;
@@ -368,6 +369,13 @@ contract CrowdFunding is ReentrancyGuard {
     event CampaignCreated(uint256 id, address owner, string title);
     event DonationReceived(uint256 campaignId, address donator, uint256 amount);
     event AdminUpdated(address admin, bool status);
+    event DonationTransferred(
+        uint256 indexed campaignId,
+        address indexed from,
+        address indexed to,
+        uint256 amount,
+        uint256 timestamp
+    );
 
     // Constructor
     constructor() {
@@ -451,19 +459,58 @@ contract CrowdFunding is ReentrancyGuard {
 
         campaign.donators.push(msg.sender);
         campaign.donations.push(msg.value);
+        campaign.timestamps.push(block.timestamp);
         campaign.amountCollected += msg.value;
 
         (bool sent, ) = payable(campaign.owner).call{value: msg.value}("");
         require(sent, "Transfer failed");
 
+        emit DonationTransferred(
+            _id,
+            msg.sender,
+            campaign.owner,
+            msg.value,
+            block.timestamp
+        );
         emit DonationReceived(_id, msg.sender, msg.value);
+    }
+
+    function updateCampaign(
+        uint256 _id,
+        string memory _title,
+        string memory _description,
+        uint256 _target
+    ) public onlyAdmin {
+        require(_id < numberOfCampaigns, "Campaign does not exist");
+        require(_target > 0, "Target must be greater than 0");
+
+        Campaign storage campaign = campaigns[_id];
+        campaign.title = _title;
+        campaign.description = _description;
+        campaign.target = _target;
+    }
+
+    function deleteCampaign(uint256 _id) public onlyAdmin {
+        require(_id < numberOfCampaigns, "Campaign does not exist");
+        delete campaigns[_id];
     }
 
     // View all campaigns
     function getCampaigns() public view returns (Campaign[] memory) {
-        Campaign[] memory allCampaigns = new Campaign[](numberOfCampaigns);
+        uint count = 0;
         for (uint i = 0; i < numberOfCampaigns; i++) {
-            allCampaigns[i] = campaigns[i];
+            if (campaigns[i].owner != address(0)) {
+                count++;
+            }
+        }
+
+        Campaign[] memory allCampaigns = new Campaign[](count);
+        uint index = 0;
+        for (uint i = 0; i < numberOfCampaigns; i++) {
+            if (campaigns[i].owner != address(0)) {
+                allCampaigns[index] = campaigns[i];
+                index++;
+            }
         }
         return allCampaigns;
     }
@@ -471,7 +518,15 @@ contract CrowdFunding is ReentrancyGuard {
     // View donators and amounts
     function getDonators(
         uint256 _id
-    ) public view returns (address[] memory, uint256[] memory) {
-        return (campaigns[_id].donators, campaigns[_id].donations);
+    )
+        public
+        view
+        returns (address[] memory, uint256[] memory, uint256[] memory)
+    {
+        return (
+            campaigns[_id].donators,
+            campaigns[_id].donations,
+            campaigns[_id].timestamps
+        );
     }
 }
