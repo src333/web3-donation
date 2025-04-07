@@ -75,3 +75,4 @@ developer logs: iteration 1
 28. i create a new route to naviagte to the admin dashboard via dashboard.js
 29. create a bunch of components need for the dashboard in the AdminDashboard folder within the componenets directory
 30. i ran "npm install recharts" to use to develop my charts components
+31. ive completed the second half of the dashboard , adding in a timeline graph with filtering abilities , transaction gui for transparency and an area to manage campaigns via different component files ive newly created.
