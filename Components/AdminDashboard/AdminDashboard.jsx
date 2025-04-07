@@ -25,13 +25,6 @@ const AdminDashboard = () => {
             <CampaignTable/>
         </div>
 
-        <div className="mt-10">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Proposal Voting</h2>
-          {/* Add ProposalManager.jsx here later */}
-          <div className="p-4 bg-white shadow rounded-lg text-gray-600">
-            (Proposal system will go here)
-          </div>
-        </div>
       </div>
     </div>
   );
