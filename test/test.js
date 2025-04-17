@@ -1,6 +1,8 @@
 // Import Hardhat testing libraries
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
+
 
 describe("CrowdFunding Contract", function () {
     let CrowdFunding;
@@ -200,5 +202,90 @@ describe("Admin Access Control", function () {
       expect(campaigns.length).to.equal(1);
       expect(campaigns[0].owner).to.equal(addr1.address);
     });
+  }); 
+
+
+  describe("CrowdFunding Contract - Iteration 3", function () {
+    let CrowdFunding;
+    let crowdFunding;
+    let owner;
+    let addr1;
+    let addr2;
+  
+    beforeEach(async function () {
+      [owner, addr1, addr2] = await ethers.getSigners();
+      CrowdFunding = await ethers.getContractFactory("CrowdFunding");
+      crowdFunding = await CrowdFunding.deploy();
+      await crowdFunding.waitForDeployment();
+    });
+  
+    describe("Event Emission and Timestamps", function () {
+      it("Should emit DonationTransferred and DonationReceived events", async function () {
+        await crowdFunding.createCampaign("Test", "Testing", ethers.parseEther("1"), Math.floor(Date.now() / 1000) + 86400);
+  
+        await expect(
+          crowdFunding.connect(addr1).donateToCampaign(0, { value: ethers.parseEther("0.1") })
+        )
+          .to.emit(crowdFunding, "DonationTransferred")
+          .withArgs(0, addr1.address, owner.address, ethers.parseEther("0.1"), anyValue)
+          .and.to.emit(crowdFunding, "DonationReceived");
+      });
+  
+      it("Should track timestamps for donations", async function () {
+        await crowdFunding.createCampaign("TimeTest", "With timestamp", ethers.parseEther("1"), Math.floor(Date.now() / 1000) + 86400);
+        await crowdFunding.connect(addr1).donateToCampaign(0, { value: ethers.parseEther("0.5") });
+  
+        const [, , timestamps] = await crowdFunding.getDonators(0);
+        expect(timestamps.length).to.equal(1);
+        expect(timestamps[0]).to.be.a("bigint");
+      });
+    });
+  
+    describe("Campaign Editing", function () {
+      it("Should allow admin to update campaign title, description, and target", async function () {
+        await crowdFunding.createCampaign("Old Title", "Old Desc", ethers.parseEther("1"), Math.floor(Date.now() / 1000) + 86400);
+  
+        const newTitle = "New Title";
+        const newDesc = "Updated description";
+        const newTarget = ethers.parseEther("3");
+  
+        await crowdFunding.updateCampaign(0, newTitle, newDesc, newTarget);
+        const campaigns = await crowdFunding.getCampaigns();
+        expect(campaigns[0].title).to.equal(newTitle);
+        expect(campaigns[0].description).to.equal(newDesc);
+        expect(campaigns[0].target).to.equal(newTarget);
+      });
+  
+      it("Should reject updates from non-admins", async function () {
+        await crowdFunding.createCampaign("Edit Block", "Non-admin should fail", ethers.parseEther("1"), Math.floor(Date.now() / 1000) + 86400);
+  
+        await expect(
+          crowdFunding.connect(addr1).updateCampaign(0, "Blocked", "Nope", ethers.parseEther("5"))
+        ).to.be.revertedWith("Only admin allowed");
+      });
+    });
+  
+    describe("Campaign Deletion", function () {
+      it("Should allow admin to delete a campaign", async function () {
+        await crowdFunding.createCampaign("DeleteMe", "Please delete", ethers.parseEther("1"), Math.floor(Date.now() / 1000) + 86400);
+        await crowdFunding.deleteCampaign(0);
+  
+        const campaigns = await crowdFunding.getCampaigns();
+        expect(campaigns.length).to.equal(0);
+      });
+  
+      it("Should not allow non-admins to delete", async function () {
+        await crowdFunding.createCampaign("Delete Block", "Only admin can delete", ethers.parseEther("1"), Math.floor(Date.now() / 1000) + 86400);
+  
+        await expect(
+          crowdFunding.connect(addr1).deleteCampaign(0)
+        ).to.be.revertedWith("Only admin allowed");
+      });
+    });
   });
+
+
+
+
+  
   

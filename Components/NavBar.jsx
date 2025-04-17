@@ -7,7 +7,7 @@ const NavBar = () => {
   const {currentAccount ,connectWallet , isAdmin} = useContext(CrowdFundingContext);
   const [isMenuOpen , setIsMenuOpen] = useState(false);
   //const menuList = ["white paper", "project","donation","members"];
-  const baseMenuList = ["white paper", "project", "donation", "members"];
+  const baseMenuList = ["Home", "About", "Donation", "Contact" , "Education"];
   const menuList = isAdmin ? [...baseMenuList, "dashboard"] : baseMenuList;
   return (
    <div className="backgroundMain">
