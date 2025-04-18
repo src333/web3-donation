@@ -76,3 +76,10 @@ developer logs: iteration 1
 29. create a bunch of components need for the dashboard in the AdminDashboard folder within the componenets directory
 30. i ran "npm install recharts" to use to develop my charts components
 31. ive completed the second half of the dashboard , adding in a timeline graph with filtering abilities , transaction gui for transparency and an area to manage campaigns via different component files ive newly created.
+32. began building navigation pages , built home.js and a AboutPage folder thatll contain all the new pages and related components for navigation , create a Home.jsx file in there
+33. created an about.js and About.jsx for the about page
+34. created a contact.js and a Contact.jsx file in the AboutPage folder
+35. created a education.js and a Education.jsx file in the AboutPage folder
+36. copied and pasted contents of the index.js file to a donation.js file so it can now be correctly navigated to /donations route
+37. changed the colour schemes of header and footer for consitency and good ux/ui along with buttons and other features
+38. refined dashboard css for a more consistent colour scheme

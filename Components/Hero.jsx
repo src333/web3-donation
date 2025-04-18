@@ -30,7 +30,7 @@ const Hero = ({titleData , createCampaign}) => {
                 className='absolute inset-0 object-cover w-full h-full'
                 alt=""
             />
-            <div className="relative bg-opacity-75 backgroundMain">
+            <div className="relative bg-opacity-75 bg-green-700">
                 <svg 
                     className="absolute inset-x-0 bottom-0 text-white"
                     viewBox="0 0 1160 163"
@@ -170,9 +170,8 @@ const Hero = ({titleData , createCampaign}) => {
                                                 onClick={(e) => createNewCampaign(e)}
                                                 type="submit"
                                                 className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide 
-                                                 text-white transition duration-200 rounded shadow-md bg-purple-600 
-                                                hover:bg-purple-700 focus:shadow-outline focus:outline-none newColor"
-
+                                                 text-white transition duration-200 rounded shadow-md bg-green-700 
+                                                hover:bg-green-900 focus:shadow-outline focus:outline-none "
                                             >
                                                 Create Campaign 
                                             </button>
@@ -180,7 +179,7 @@ const Hero = ({titleData , createCampaign}) => {
                                         <p>
                                             .
                                         </p>
-                                        <p className="text-xs text-gray-600 sm:text-sm">
+                                        <p className="text-xs text-gray-800 sm:text-sm">
                                             Create your campaign to raise funds 
                                         </p>
                                     </form>

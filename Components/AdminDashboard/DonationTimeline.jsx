@@ -136,7 +136,7 @@ const DonationTimeline = () => {
 
           <YAxis />
           <Tooltip />
-          <Line type="monotone" dataKey="amount" stroke="#7e22ce" strokeWidth={2} />
+          <Line type="monotone" dataKey="amount" stroke="#2E8B57" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
     </div>

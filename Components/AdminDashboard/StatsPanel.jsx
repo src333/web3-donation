@@ -77,7 +77,7 @@ const StatsPanel = () => {
 const StatCard = ({ label, value }) => (
   <div className="bg-white rounded-lg shadow p-6 text-center">
     <h4 className="text-lg font-semibold text-gray-600 mb-2">{label}</h4>
-    <p className="text-2xl font-bold text-purple-600">{value}</p>
+    <p className="text-2xl font-bold text-green-700">{value}</p>
   </div>
 );
 

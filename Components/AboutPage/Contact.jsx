@@ -2,8 +2,25 @@ import React from "react";
 
 const Contact = () => {
   return (
+    
     <div className="px-4 py-10 sm:px-6 lg:px-20 bg-white text-gray-800">
+      <div className="relative bg-green-700 text-white py-16 text-center">
+        {/* SVG wave */}
+        <svg
+          className="absolute bottom-0 left-0 w-full h-20 text-white"
+          viewBox="0 0 1160 163"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="currentColor"
+            d="M-164 13L-104 39.7C-44 66 76 120 196 141C316 162 436 152 556 119.7C676 88 796 34 916 13C1036 -8 1156 2 
+            1216 7.7L1276 13V163H1216C1156 163 1036 163 916 163C796 163 676 163 556 163C436 163 316 163 196 163C76 163 
+            -44 163 -104 163H-164V13Z"
+          />
+        </svg>
+      </div>
       <div className="max-w-7xl mx-auto">
+        
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-5xl font-bold text-green-800 mb-2">
             Contact Us

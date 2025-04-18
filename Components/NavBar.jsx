@@ -10,7 +10,7 @@ const NavBar = () => {
   const baseMenuList = ["Home", "About", "Donation", "Contact" , "Education"];
   const menuList = isAdmin ? [...baseMenuList, "dashboard"] : baseMenuList;
   return (
-   <div className="backgroundMain">
+   <div className="bg-green-700">
       <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
           <div className="relative flex items-center justify-between">
               <div className="flex items-center">
@@ -22,7 +22,7 @@ const NavBar = () => {
                 >
                   <Logo color="text-white"/>
                   <span className="ml-3 text-xl font-bold tracking-wide text-gray-100 uppercase">
-                    Company
+                     Mosque
                   </span>
                 </a>
                 <ul className="flex items-center hidden space-x-8 lg:flex">
@@ -32,7 +32,7 @@ const NavBar = () => {
                         href={`/${el.toLowerCase().replace(/\s+/g, "-")}`} // e.g., "Admin Dashboard" → "/admin-dashboard"
                         aria-label={el}
                         title={el}
-                        className="font-medium tracking-wide text-gray-300 transition-colors duration-200 hover:text-teal-accent-400"
+                        className="font-medium tracking-wide text-white transition-colors duration-200 hover:text-teal-accent-400"
                       >
                         {el}
                       </a>
@@ -43,12 +43,12 @@ const NavBar = () => {
               <ul className="flex items-center hidden space-x-8 lg:flex">
                 <li>
                   {currentAccount ? (
-                    <p className="text-gray-300 font-semibold flex items-center gap-2">
+                    <p className="text-white font-semibold flex items-center gap-2">
                       <span>
                         Connected: {currentAccount.slice(0, 6)}...{currentAccount.slice(-4)}
                       </span>
                       {isAdmin && (
-                        <span className="bg-purple-700 text-black text-xs px-2 py-1 rounded-md font-bold tracking-wide">
+                        <span className="bg-green-950 text-white text-xs px-2 py-1 rounded-md font-bold tracking-wide">
                           Admin Account
                         </span>
                       )}
@@ -57,8 +57,8 @@ const NavBar = () => {
                     <button
                       onClick={() => connectWallet()}
                       className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white 
-                      bg-purple-600 hover:bg-purple-700 active:scale-95 transition-all duration-200 ease-in-out 
-                      rounded shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      bg-green-950 hover:bg-green-900 active:scale-95 transition-all duration-200 ease-in-out 
+                      rounded shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-white-500"
                       aria-label="Connect Wallet"
                       title="Connect Wallet"
                     >

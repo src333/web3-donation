@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recha
 import { CrowdFundingContext } from "../../Context/CrowdFunding";
 import { ethers } from "ethers";
 
-const COLORS = ["#7e22ce", "#e2e8f0"]; // purple & gray
+const COLORS = ["#2E8B57", "#e2e8f0"]; // purple & gray
 
 const TotalEthPieChart = () => {
   const { getCampaigns } = useContext(CrowdFundingContext);

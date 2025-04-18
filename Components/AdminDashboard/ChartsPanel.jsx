@@ -23,7 +23,7 @@ const ChartsPanel = ({ data }) => {
               <XAxis dataKey="title" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="amountRaised" fill="#7e22ce" />
+              <Bar dataKey="amountRaised" fill="#2E8B57" />
             </BarChart>
           </ResponsiveContainer>
         </div>

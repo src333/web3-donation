@@ -9,7 +9,7 @@ const Footer = () => {
   ];
   const usefullLink = ["Home","About Us","Company Bio"];
   return (
-    <footer className="text-center text-white backgroundMain lg:text-left">
+    <footer className="text-center text-white bg-green-700 lg:text-left">
       <div className="px-6 py-10 text-center md:text-left">
         <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="">
@@ -53,7 +53,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="backgroundMain p-6 text-center">
+      <div className="bg-green-800 p-6 text-center text-white">
         <span>@ 2025 Copyright: </span>
         <a className="front-semibold" href="https://tailwind-elements.com/">
         Crypto Mosque 

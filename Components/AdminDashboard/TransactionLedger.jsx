@@ -71,7 +71,7 @@ const TransactionLedger = () => {
               <td className="px-4 py-2">{tx.date}</td>
               <td className="px-4 py-2">{tx.time}</td>
               <td className="px-4 py-2">
-                <span title={tx.from} className="text-purple-700">
+                <span title={tx.from} className="text-green-700">
                   {shortenAddress(tx.from)}
                 </span>
                 {isCurrentAdmin(tx.from) && (
@@ -79,7 +79,7 @@ const TransactionLedger = () => {
                 )}
               </td>
               <td className="px-4 py-2">
-                <span title={tx.to} className="text-purple-700">
+                <span title={tx.to} className="text-green-700">
                   {shortenAddress(tx.to)}
                 </span>
                 {isCurrentAdmin(tx.to) && (
