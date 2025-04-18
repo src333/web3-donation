@@ -83,3 +83,5 @@ developer logs: iteration 1
 36. copied and pasted contents of the index.js file to a donation.js file so it can now be correctly navigated to /donations route
 37. changed the colour schemes of header and footer for consitency and good ux/ui along with buttons and other features
 38. refined dashboard css for a more consistent colour scheme
+39. improve ux with cursors and highlights when hovering over certain features like buttons and navigation buttons for better clarity
+40. i edited the logo.jsx file to create an svg befitting of a website for a mosque , to logo replicates that off a mosque for good use of context and ui/ux

@@ -25,7 +25,7 @@ export default function About() {
       </div>
 
       {/* Main content below the wave */}
-      <div className="relative z-10 bg-white pt-16 pb-10 px-6 md:px-20 max-w-6xl mx-auto">
+      <div className="relative z-10 bg-white pt-16 pb-10 px-6 md:px-20 max-w-6xl mx-auto ">
         <InfoCard className="mb-10">
           <h2 className="text-2xl font-semibold mb-4 text-green-700 text-center">Background History</h2>
           <p className="text-gray-800 leading-relaxed">

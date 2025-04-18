@@ -1,23 +1,50 @@
-import React from "react" ;
+import React from "react";
 
-const Logo = ({color}) => {
+const Logo = ({ color = "text-white" }) => {
   return (
-    <svg 
-      className={`w-8 ${color} text-teal-accent-400`}
-      viewBox="0 0 24 24"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeMiterlimit="10"
-      stroke="currentColor"
+    <svg
+      className={`w-8 h-8 ${color}`}
+      viewBox="0 0 64 64"
       fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <rect x="3" y="1" width="7" height="12" />
-      <rect x="3" y="17" width="7" height="6" />
-      <rect x="14" y="1" width="7" height="6" />
-      <rect x="14" y="11" width="7" height="12" />
-   </svg>
-  ); 
+      {/* Dome */}
+      <path
+        d="M32 8C22 8 14 16 14 26H50C50 16 42 8 32 8Z"
+        fill="currentColor"
+      />
+
+      {/* Rectangular mosque base */}
+      <rect
+        x="8"
+        y="26"
+        width="48"
+        height="28"
+        rx="2"
+        fill="currentColor"
+      />
+
+      {/* Left Minaret */}
+      <rect
+        x="2"
+        y="18"
+        width="4"
+        height="36"
+        rx="1"
+        fill="currentColor"
+      />
+
+      {/* Right Minaret */}
+      <rect
+        x="58"
+        y="18"
+        width="4"
+        height="36"
+        rx="1"
+        fill="currentColor"
+      />
+    </svg>
+  );
 };
 
 export default Logo;

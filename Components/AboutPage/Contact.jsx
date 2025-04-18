@@ -3,7 +3,7 @@ import React from "react";
 const Contact = () => {
   return (
     
-    <div className="px-4 py-10 sm:px-6 lg:px-20 bg-white text-gray-800">
+    <div className="px-0 py-0 sm:px-0 lg:px-0 bg-white text-gray-800">
       <div className="relative bg-green-700 text-white py-16 text-center">
         {/* SVG wave */}
         <svg
@@ -27,7 +27,7 @@ const Contact = () => {
           </h1>
           <p className="text-gray-600">We'd love to hear from you.</p>
         </div>
-
+        <div className="px-4 py-10 sm:px-6 lg:px-20 bg-white text-gray-800">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Contact Form */}
           <div className="lg:col-span-2">
@@ -70,7 +70,7 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="bg-green-700 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-800 transition"
+                className="bg-green-700 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-900 transition cursor-pointer"
               >
                 Send Message
               </button>
@@ -110,6 +110,7 @@ const Contact = () => {
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.6283128516757!2d-0.04344862309968954!3d51.52003470977989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761d2c00e4f49b%3A0x1646fa18ee130fe1!2sStepney%20Shahjalal%20Mosque%20%26%20Cultural%20Centre!5e0!3m2!1sen!2suk!4v1685965587410!5m2!1sen!2suk"
           ></iframe>
         </div>
+      </div>
       </div>
     </div>
   );
