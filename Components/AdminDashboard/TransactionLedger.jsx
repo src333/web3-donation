@@ -2,27 +2,52 @@ import React, { useEffect, useState, useContext } from "react";
 import { CrowdFundingContext } from "../../Context/CrowdFunding";
 import { ethers } from "ethers";
 
+/**
+ * Utility: Shortens Ethereum addresses for readability.
+ * Example: 0xabc123...789def
+ */
 const shortenAddress = (addr) => `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 
+/**
+ * Utility: Converts UNIX timestamp to DD/MM/YYYY format.
+ */
 const formatDate = (timestamp) => {
   const date = new Date(timestamp);
   return date.toLocaleDateString("en-GB");
 };
 
+/**
+ * Utility: Converts UNIX timestamp to HH:MM format (24-hour).
+ */
 const formatTime = (timestamp) => {
   const date = new Date(timestamp);
   return date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
 };
 
+/**
+ * TransactionLedger Component
+ *
+ * Renders a paginated transaction table of all donation activity.
+ * Tracks campaign name, participants, ETH value, and handles deleted campaign UI.
+ * Automatically fetches from blockchain using context.
+ */
 const TransactionLedger = () => {
   const { getAllCampaigns, getDonations, currentAccount } = useContext(CrowdFundingContext);
-  const [transactions, setTransactions] = useState([]);
 
+  const [transactions, setTransactions] = useState([]);        // All donation transactions
+  const [currentPage, setCurrentPage] = useState(1);           // Current visible page in pagination
+  const itemsPerPage = 7;                                      // Max items to show per page
+
+  /**
+   * useEffect: Fetches all campaign donations once on component mount.
+   * Includes deleted campaigns and sorts by most recent.
+   */
   useEffect(() => {
     const loadTransactions = async () => {
-      const campaigns = await getAllCampaigns();
+      const campaigns = await getAllCampaigns();               // Get all campaigns (active + deleted)
       let all = [];
 
+      // Collect all donation data from each campaign
       for (const campaign of campaigns) {
         const donations = await getDonations(campaign.pId);
 
@@ -35,25 +60,48 @@ const TransactionLedger = () => {
             campaign: campaign.title,
             campaignId: campaign.pId,
             amount: parseFloat(donation.donation),
-            isDeleted: campaign.isDeleted || false, // Support optional field
+            isDeleted: campaign.isDeleted || false,
+            rawTimestamp: Number(donation.timestamp) * 1000, // For JS-based sorting
           });
         });
       }
 
-      all.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-      setTransactions(all);
+      // Sort newest to oldest by timestamp
+      all.sort((a, b) => b.rawTimestamp - a.rawTimestamp);
+
+      setTransactions(all); // Store result
     };
 
-    loadTransactions();
+    loadTransactions(); // Trigger on mount
   }, []);
 
+  /**
+   * Determines if a given address belongs to the current admin wallet.
+   * Adds visual tag if matched.
+   */
   const isCurrentAdmin = (address) =>
     currentAccount && address.toLowerCase() === currentAccount.toLowerCase();
 
+  // --- Pagination calculations ---
+  const indexOfLastItem = currentPage * itemsPerPage;                      // Ending index
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;                // Starting index
+  const currentItems = transactions.slice(indexOfFirstItem, indexOfLastItem); // Page slice
+  const totalPages = Math.ceil(transactions.length / itemsPerPage);       // Total pages
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
   return (
     <div className="bg-white mt-10 p-6 rounded-lg shadow-md overflow-x-auto">
+      {/* Ledger Section Header */}
       <h3 className="text-lg font-semibold mb-4 text-gray-800">Transactions</h3>
 
+      {/* Main Transaction Table */}
       <table className="min-w-full text-left border-collapse">
         <thead>
           <tr className="bg-gray-100 text-sm text-gray-600 uppercase">
@@ -66,30 +114,43 @@ const TransactionLedger = () => {
             <th className="px-4 py-2">Amount (ETH)</th>
           </tr>
         </thead>
+
         <tbody>
-          {transactions.map((tx, i) => (
+          {currentItems.map((tx, i) => (
             <tr
               key={i}
-              className={`border-t text-sm ${tx.isDeleted ? "bg-red-50 text-gray-500 italic" : ""}`}
+              className={`border-t text-sm ${
+                tx.isDeleted ? "bg-red-50 text-gray-500 italic" : ""
+              }`}
             >
               <td className="px-4 py-2">{tx.date}</td>
               <td className="px-4 py-2">{tx.time}</td>
+
+              {/* Donator Address */}
               <td className="px-4 py-2">
                 <span title={tx.from} className="text-green-700">
                   {shortenAddress(tx.from)}
                 </span>
                 {isCurrentAdmin(tx.from) && (
-                  <span className="ml-1 text-xs bg-gray-100 text-black px-1 py-0.5 rounded">Admin</span>
+                  <span className="ml-1 text-xs bg-gray-100 text-black px-1 py-0.5 rounded">
+                    Admin
+                  </span>
                 )}
               </td>
+
+              {/* Campaign Owner Address */}
               <td className="px-4 py-2">
                 <span title={tx.to} className="text-green-700">
                   {shortenAddress(tx.to)}
                 </span>
                 {isCurrentAdmin(tx.to) && (
-                  <span className="ml-1 text-xs bg-gray-100 text-black px-1 py-0.5 rounded">Admin</span>
+                  <span className="ml-1 text-xs bg-gray-100 text-black px-1 py-0.5 rounded">
+                    Admin
+                  </span>
                 )}
               </td>
+
+              {/* Campaign Title + Deleted Flag */}
               <td className="px-6 py-3">
                 {tx.campaign}
                 {tx.isDeleted && (
@@ -98,12 +159,47 @@ const TransactionLedger = () => {
                   </span>
                 )}
               </td>
+
+              {/* Campaign ID + Donation Amount */}
               <td className="px-6 py-3">{tx.campaignId}</td>
               <td className="px-6 py-3 font-medium">{tx.amount.toFixed(2)}</td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      {transactions.length > itemsPerPage && (
+        <div className="flex justify-between items-center mt-4">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-md border ${
+              currentPage === 1
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-green-700 text-white hover:bg-green-900"
+            }`}
+          >
+            Previous
+          </button>
+
+          <span className="text-sm text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-md border ${
+              currentPage === totalPages
+                ? "bg-gray-100 text-gray-400 cursor:pointer"
+                : "bg-green-700 text-white hover:bg-green-900"
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
