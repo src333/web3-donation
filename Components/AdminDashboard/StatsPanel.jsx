@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import CampaignChart from "./ChartsPanel";
 
 const StatsPanel = () => {
-  const { getCampaigns, getDonations } = useContext(CrowdFundingContext);
+  const { getAllCampaigns, getDonations } = useContext(CrowdFundingContext);
   const [stats, setStats] = useState({
     totalETH: "0",
     totalDonors: 0,
@@ -17,7 +17,7 @@ const StatsPanel = () => {
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const campaigns = await getCampaigns();
+        const campaigns = await getAllCampaigns();
         let totalETH = ethers.parseEther("0");
         let active = 0;
         let completed = 0;
@@ -32,9 +32,11 @@ const StatsPanel = () => {
           totalETH += amount;
 
           chartFormatted.push({
-            title: campaign.title,
+            title: campaign.title + (campaign.isDeleted ? " (Deleted)" : ""),
             amountRaised: parseFloat(ethers.formatEther(amount)),
+            isDeleted: campaign.isDeleted, // Add this flag so bar chart can use it
           });
+          
 
           const isActive = Number(campaign.deadline) > now;
           isActive ? active++ : completed++;

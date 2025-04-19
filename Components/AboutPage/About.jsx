@@ -6,8 +6,8 @@ export default function About() {
     <div className="relative bg-opacity-75 ">
       {/* Hero section with wave */}
       <div className="relative bg-green-700 text-white py-16 text-center">
-        <h1 className="text-4xl font-bold mb-2">About Us</h1>
-        <p className="text-lg">Our history, mission, and ongoing journey.</p>
+        <h1 className="text-4xl md:text-5xl font-bold mb-2">About Us</h1>
+        <p className="text-lg md:text-xl">Our history, mission, and ongoing journey.</p>
 
         {/* SVG wave */}
         <svg
@@ -25,7 +25,7 @@ export default function About() {
       </div>
 
       {/* Main content below the wave */}
-      <div className="relative z-10 bg-white pt-16 pb-10 px-6 md:px-20 max-w-6xl mx-auto ">
+      <div className="relative z-10 bg-white pt-16 pb-10 px-6 md:px-20 max-w-6xl mx-auto">
         <InfoCard className="mb-10">
           <h2 className="text-2xl font-semibold mb-4 text-green-700 text-center">Background History</h2>
           <p className="text-gray-800 leading-relaxed">
@@ -97,6 +97,51 @@ export default function About() {
             <b>Alhamdulillah</b>, underground foundation work is nearly complete. Once finished, the Mosque will serve over 3000 worshippers. Work began with £0.5 million in funds raised by the community, though £3.5 million is needed to complete Phase One.
           </p>
         </InfoCard>
+
+        {/* What We Do Section */}
+        <section className="py-16 px-4 bg-white text-gray-900">
+          <div className="max-w-6xl mx-auto">
+            <header className="mb-12 text-center">
+              <h2 className="text-3xl font-semibold mb-2 text-green-800">Current Activities of the Mosque</h2>
+              <p className="text-gray-600">An overview of regular programs and facilities offered by Stepney Shahjalal Mosque</p>
+            </header>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {[{
+                  title: "5 Daily Prayers",
+                  content: "The mosque is open every day of the year, offering all five daily prayers. Around 100-200 people attend each session. Imams are available after prayers for guidance and support."
+                },
+                {
+                  title: "Jummah",
+                  content: "Every Friday, 1500-2000 attendees gather for the Jummah prayer. A khutbah is delivered to inspire social responsibility and spiritual growth."
+                },
+                {
+                  title: "Eid & Tarawih",
+                  content: "Up to 4000 people attend Eid prayers, with four congregations held. Around 800 people attend Tarawih prayers during Ramadan."
+                },
+                {
+                  title: "Evening Madrasah",
+                  content: "Monday to Friday, nearly 200 children learn Islamic studies for two hours each evening in a structured educational setting."
+                }
+              ].map((item, index) => (
+                <div key={index} className="border border-green-700 p-6 rounded-lg shadow-sm bg-white hover:shadow-md transition">
+                  <h3 className="text-xl font-semibold text-green-800 mb-2">{item.title}</h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">{item.content}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-16">
+              <h3 className="text-2xl font-semibold text-green-800 mb-4">Facilities for Women</h3>
+              <div className="space-y-4 text-gray-700">
+                <p>The mosque provides facilities for women to pray during all services including daily prayer, Jummah, Eid, and Ramadan. The Women’s Link Project supports isolated women through educational and social services like domestic violence support and mental health awareness.</p>
+                <p>Educational opportunities include classes for boys and girls, hifz, pre-alim and alim courses, and regular Islamic sessions. These sessions are inclusive and also open to non-Muslims for interfaith dialogue.</p>
+                <p>Worshippers from diverse backgrounds—Asian, African, Arab, and European—are welcomed. Services comply with UK law and cater to the needs of a broad community.</p>
+                <p>Originally founded by members of the Bangladeshi community, the mosque now serves Somali, Arab, and other Muslim communities. Women, youth, and individuals with disabilities are encouraged to engage with mosque activities and leadership.</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

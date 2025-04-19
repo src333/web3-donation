@@ -86,7 +86,9 @@ export const CrowdFundingProvider = ({children}) => {
             deadline: Number(campaign.deadline),
             //amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
             amountCollected: ethers.formatEther(campaign.amountCollected), 
-            pId: i,
+            //pId: i,
+            pId: Number(campaign.id)
+
         }));
 
         return parsedCampaigns;
@@ -124,7 +126,8 @@ export const CrowdFundingProvider = ({children}) => {
             description: campaign.description,
             target: ethers.formatEther(campaign.target),
             amountCollected: ethers.formatEther(campaign.amountCollected),
-            pId: i,
+            //pId: i,
+            pId: Number(campaign.id),
           }));
       
           return userData;
@@ -133,6 +136,26 @@ export const CrowdFundingProvider = ({children}) => {
           return [];
         }
     };
+
+    const getAllCampaigns = async () => {
+      const provider = new ethers.JsonRpcProvider();
+      const contract = fetchContract(provider);
+      const campaigns = await contract.getAllCampaigns();
+    
+      const parsedCampaigns = campaigns.map((campaign) => ({
+        owner: campaign.owner,
+        title: campaign.title,
+        description: campaign.description,
+        target: ethers.formatEther(campaign.target),
+        amountCollected: ethers.formatEther(campaign.amountCollected),
+        deadline: Number(campaign.deadline),
+        pId: Number(campaign.id),
+        isDeleted: campaign.isDeleted, 
+      }));
+    
+      return parsedCampaigns;
+    };
+    
       
 
     const donate = async (pId, amount) => {
@@ -324,6 +347,7 @@ export const CrowdFundingProvider = ({children}) => {
                 connectWallet,
                 updateCampaign,
                 deleteCampaign,
+                getAllCampaigns,
             }}
         >
             {children}

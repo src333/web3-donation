@@ -8,7 +8,7 @@ export default function AdminDashboardPage() {
   if (!isAdmin) {
     return (
       <div className="text-center mt-20 text-red-500 font-semibold">
-        🔒 Access Denied – Admins Only
+        🔒 Access Denied - Admins Only
       </div>
     );
   }

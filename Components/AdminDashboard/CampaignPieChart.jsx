@@ -6,14 +6,14 @@ import { ethers } from "ethers";
 const COLORS = ["#2E8B57", "#e5e7eb"]; // Purple & light gray
 
 const CampaignPieChart = () => {
-  const { getCampaigns } = useContext(CrowdFundingContext);
+  const { getAllCampaigns } = useContext(CrowdFundingContext);
   const [campaigns, setCampaigns] = useState([]);
   const [selected, setSelected] = useState(null);
   const [pieData, setPieData] = useState([]);
 
   useEffect(() => {
     const load = async () => {
-      const result = await getCampaigns();
+      const result = await getAllCampaigns();
       setCampaigns(result);
       if (result.length > 0) {
         setSelected(result[0]); // Default to first campaign
@@ -51,7 +51,7 @@ const CampaignPieChart = () => {
     >
       {campaigns.map((campaign) => (
         <option key={campaign.pId} value={campaign.pId}>
-          {campaign.title}
+          {campaign.title} {campaign.isDeleted ? "(Deleted)" : ""}
         </option>
       ))}
     </select>

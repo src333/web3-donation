@@ -12,7 +12,7 @@ import { CrowdFundingContext } from "../../Context/CrowdFunding";
 import { ethers } from "ethers";
 
 const DonationTimeline = () => {
-  const { getCampaigns, getDonations } = useContext(CrowdFundingContext);
+  const { getAllCampaigns, getDonations } = useContext(CrowdFundingContext);
   const [timelineData, setTimelineData] = useState([]);
   const [filter, setFilter] = useState("week");
 
@@ -24,7 +24,6 @@ const DonationTimeline = () => {
   const formatDate = (timestamp) => {
     return new Date(timestamp).toLocaleDateString("en-GB");
   };
-  
 
   const isWithinFilterRange = (timestamp) => {
     const now = new Date();
@@ -47,7 +46,7 @@ const DonationTimeline = () => {
 
   useEffect(() => {
     const fetchTimeline = async () => {
-      const campaigns = await getCampaigns();
+      const campaigns = await getAllCampaigns(); // <-- now includes deleted
       let donations = [];
 
       for (const campaign of campaigns) {
@@ -64,7 +63,7 @@ const DonationTimeline = () => {
 
       const grouped =
         filter === "today"
-          ? filtered // keep individual donations for today
+          ? filtered
           : filtered.reduce((acc, curr) => {
               const existing = acc.find((item) => item.time === curr.time);
               if (existing) {
@@ -75,20 +74,18 @@ const DonationTimeline = () => {
               return acc;
             }, []);
 
-    setTimelineData(
+      setTimelineData(
         grouped.sort((a, b) => {
-            if (filter === "today") {
+          if (filter === "today") {
             const today = new Date().toISOString().split("T")[0];
             return new Date(`${today}T${a.time}`) - new Date(`${today}T${b.time}`);
-            } else {
+          } else {
             const [dayA, monthA, yearA] = a.time.split("/");
             const [dayB, monthB, yearB] = b.time.split("/");
             return new Date(`${yearA}-${monthA}-${dayA}`) - new Date(`${yearB}-${monthB}-${dayB}`);
-            }
+          }
         })
-    );
-              
-              
+      );
     };
 
     fetchTimeline();
@@ -118,23 +115,21 @@ const DonationTimeline = () => {
           <XAxis
             dataKey="time"
             label={{
-                value: filter === "today" ? "Time" : "Date",
-                position: "insideBottom",
-                offset: -2.5,
-                style: { fill: "#555", fontSize: 12 }
+              value: filter === "today" ? "Time" : "Date",
+              position: "insideBottom",
+              offset: -2.5,
+              style: { fill: "#555", fontSize: 12 },
             }}
-            />
-            <YAxis
+          />
+          <YAxis
             label={{
-                value: "ETH Donated",
-                angle: -90,
-                position: "insideLeft",
-                offset: 10,
-                style: { fill: "#555", fontSize: 12 }
+              value: "ETH Donated",
+              angle: -90,
+              position: "insideLeft",
+              offset: 10,
+              style: { fill: "#555", fontSize: 12 },
             }}
-            />
-
-          <YAxis />
+          />
           <Tooltip />
           <Line type="monotone" dataKey="amount" stroke="#2E8B57" strokeWidth={2} />
         </LineChart>

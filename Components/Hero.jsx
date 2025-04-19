@@ -4,9 +4,19 @@ import React, { useContext, useState } from "react";
 import { CrowdFundingContext } from "../Context/CrowdFunding"; // remove 
 
 
-
+/**
+ * Hero Component
+ *
+ * Displays the landing section of the homepage with a banner and conditional form.
+ * If the user is an admin, they can create a new campaign using the form.
+ *
+ * Props:
+ * - titleData (unused): potentially for future dynamic headings
+ * - createCampaign (function): async handler to submit new campaign data
+ */
 const Hero = ({titleData , createCampaign}) => {
-    const { isAdmin } = useContext(CrowdFundingContext); // remove 
+    const { isAdmin } = useContext(CrowdFundingContext); // Admin check for conditional rendering
+     // Form state for creating a new campaign
     const [campaign , setCampaign] = useState ({
         title: "",
         description: "",
@@ -14,6 +24,10 @@ const Hero = ({titleData , createCampaign}) => {
         deadline: "",
     });
 
+    /**
+    * Handles form submission to create a campaign.
+    * Calls the passed `createCampaign` prop function.
+    */
     const createNewCampaign = async (e) => {
         e.preventDefault();
         try{
@@ -24,13 +38,16 @@ const Hero = ({titleData , createCampaign}) => {
     };
     return (
         <div className="relative">
+             {/* Background Overlay Image */}
             <span className="coverLine"></span>
             <img 
                 src="https://images.pexels.com/photos/3228766/pexels-photo-3228766.jpeg?auto=compress&amp;cs=tinysrbg&amp;dpr=2&amp;h=750&amp;w=1260"
                 className='absolute inset-0 object-cover w-full h-full'
                 alt=""
             />
+            {/* Overlay and content container */}
             <div className="relative bg-opacity-75 bg-green-700">
+                {/* Decorative wave for visual flair */}
                 <svg 
                     className="absolute inset-x-0 bottom-0 text-white"
                     viewBox="0 0 1160 163"
@@ -42,8 +59,11 @@ const Hero = ({titleData , createCampaign}) => {
                         -104 162.5H-164V13Z" 
                     />
                 </svg>
+
+                {/* Content Layout */}
                 <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
                     <div className="flex flex-col items-center justify-between xl:flex-row">
+                        {/* Hero Text Block */}
                         <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
                             <h2 className=" max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-5xl sm:leading-none">
                                 Crypto Mosque <br className="hidden md:block"/>
@@ -66,6 +86,7 @@ const Hero = ({titleData , createCampaign}) => {
                                 </svg>
                             </a>
                         </div>
+                            {/* Conditional Admin Form or Restricted Notice which includes fields a campaign title , description input , target amount to raise funds for , a deadline input field*/}
                             <div className="w-full max-w-xl xl:px-8 xl:w-5/12">
                             {isAdmin ? (
                                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
@@ -73,6 +94,7 @@ const Hero = ({titleData , createCampaign}) => {
                                         Campaign
                                     </h3>
                                     <form>
+                                        {/* Campaign Title Input */}
                                         <div className="mb-1 sm:mb-2">
                                             <label 
                                                 htmlFor="firstName"
@@ -96,6 +118,8 @@ const Hero = ({titleData , createCampaign}) => {
                                                 name="firstName"
                                             />
                                         </div>
+
+                                        {/* Description Input */}
                                         <div className="mb-1 sm:mb-2">
                                             <label 
                                                 htmlFor="lastName"
@@ -119,6 +143,8 @@ const Hero = ({titleData , createCampaign}) => {
                                                 name="lastName"
                                             />
                                         </div>
+
+                                        {/* Target Amount Input */}
                                         <div className="mb-1 sm:mb-2">
                                             <label 
                                                 htmlFor="email"
@@ -142,6 +168,8 @@ const Hero = ({titleData , createCampaign}) => {
                                                 name="email"
                                             />
                                         </div>
+
+                                        {/* Deadline Input */}
                                         <div className="mb-1 sm:mb-2">
                                             <label 
                                                 htmlFor="email"
@@ -165,13 +193,15 @@ const Hero = ({titleData , createCampaign}) => {
                                                 name="email"
                                             />
                                         </div>
+
+                                        {/* Submit Button */}
                                         <div>
                                             <button 
                                                 onClick={(e) => createNewCampaign(e)}
                                                 type="submit"
                                                 className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide 
                                                  text-white transition duration-200 rounded shadow-md bg-green-700 
-                                                hover:bg-green-900 focus:shadow-outline focus:outline-none "
+                                                hover:bg-green-900 focus:shadow-outline focus:outline-none cursor-pointer"
                                             >
                                                 Create Campaign 
                                             </button>
@@ -179,10 +209,11 @@ const Hero = ({titleData , createCampaign}) => {
                                         <p>
                                             .
                                         </p>
-                                        <p className="text-xs text-gray-800 sm:text-sm">
+                                        <p className="text-xs text-gray-800 sm:text-sm text-center">
                                             Create your campaign to raise funds 
                                         </p>
                                     </form>
+                                    {/* displays restricted access UI if user isnt an admin instead of the campaign creation form */}
                                 </div>
                             ) : (
                                 <div className="bg-white rounded-lg shadow-lg p-6 sm:p-10 text-center max-w-sm sm:max-w-md mx-auto">

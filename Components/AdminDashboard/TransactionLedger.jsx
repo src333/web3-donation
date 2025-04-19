@@ -15,12 +15,12 @@ const formatTime = (timestamp) => {
 };
 
 const TransactionLedger = () => {
-  const { getCampaigns, getDonations, currentAccount } = useContext(CrowdFundingContext);
+  const { getAllCampaigns, getDonations, currentAccount } = useContext(CrowdFundingContext);
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const loadTransactions = async () => {
-      const campaigns = await getCampaigns();
+      const campaigns = await getAllCampaigns();
       let all = [];
 
       for (const campaign of campaigns) {
@@ -35,6 +35,7 @@ const TransactionLedger = () => {
             campaign: campaign.title,
             campaignId: campaign.pId,
             amount: parseFloat(donation.donation),
+            isDeleted: campaign.isDeleted || false, // Support optional field
           });
         });
       }
@@ -67,7 +68,10 @@ const TransactionLedger = () => {
         </thead>
         <tbody>
           {transactions.map((tx, i) => (
-            <tr key={i} className="border-t text-sm">
+            <tr
+              key={i}
+              className={`border-t text-sm ${tx.isDeleted ? "bg-red-50 text-gray-500 italic" : ""}`}
+            >
               <td className="px-4 py-2">{tx.date}</td>
               <td className="px-4 py-2">{tx.time}</td>
               <td className="px-4 py-2">
@@ -75,7 +79,7 @@ const TransactionLedger = () => {
                   {shortenAddress(tx.from)}
                 </span>
                 {isCurrentAdmin(tx.from) && (
-                  <span className="ml-1 text-xs bg-gray-100 text-black-800 px-1 py-0.5 rounded">Admin</span>
+                  <span className="ml-1 text-xs bg-gray-100 text-black px-1 py-0.5 rounded">Admin</span>
                 )}
               </td>
               <td className="px-4 py-2">
@@ -83,12 +87,19 @@ const TransactionLedger = () => {
                   {shortenAddress(tx.to)}
                 </span>
                 {isCurrentAdmin(tx.to) && (
-                  <span className="ml-1 text-xs bg-gray-100 text-black-800 px-1 py-0.5 rounded">Admin</span>
+                  <span className="ml-1 text-xs bg-gray-100 text-black px-1 py-0.5 rounded">Admin</span>
                 )}
               </td>
-              <td className="px-6 py-3">{tx.campaign}</td>
-              <td className="px-15 py-3">{tx.campaignId}</td>
-              <td className="px-12 py-3 font-medium"> {tx.amount.toFixed(2)}</td>
+              <td className="px-6 py-3">
+                {tx.campaign}
+                {tx.isDeleted && (
+                  <span className="ml-2 text-xs bg-red-200 text-red-800 px-2 py-0.5 rounded">
+                    Deleted
+                  </span>
+                )}
+              </td>
+              <td className="px-6 py-3">{tx.campaignId}</td>
+              <td className="px-6 py-3 font-medium">{tx.amount.toFixed(2)}</td>
             </tr>
           ))}
         </tbody>

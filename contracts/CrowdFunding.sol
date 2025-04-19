@@ -351,6 +351,8 @@ contract CrowdFunding is ReentrancyGuard {
 
     // Campaign data structure
     struct Campaign {
+        uint256 id; // Unique ID of the campaign
+        bool isDeleted;
         address owner;
         string title;
         string description;
@@ -413,6 +415,7 @@ contract CrowdFunding is ReentrancyGuard {
 
         Campaign storage campaign = campaigns[numberOfCampaigns];
         //campaign.owner = _owner;
+        campaign.id = numberOfCampaigns;
         campaign.owner = msg.sender;
         campaign.title = _title;
         campaign.description = _description;
@@ -492,14 +495,18 @@ contract CrowdFunding is ReentrancyGuard {
 
     function deleteCampaign(uint256 _id) public onlyAdmin {
         require(_id < numberOfCampaigns, "Campaign does not exist");
-        delete campaigns[_id];
+        //delete campaigns[_id];
+        campaigns[_id].isDeleted = true;
     }
 
     // View all campaigns
     function getCampaigns() public view returns (Campaign[] memory) {
         uint count = 0;
         for (uint i = 0; i < numberOfCampaigns; i++) {
-            if (campaigns[i].owner != address(0)) {
+            /*if (campaigns[i].owner != address(0)) {
+                count++;
+            }*/
+            if (!campaigns[i].isDeleted) {
                 count++;
             }
         }
@@ -507,10 +514,22 @@ contract CrowdFunding is ReentrancyGuard {
         Campaign[] memory allCampaigns = new Campaign[](count);
         uint index = 0;
         for (uint i = 0; i < numberOfCampaigns; i++) {
-            if (campaigns[i].owner != address(0)) {
+            /*if (campaigns[i].owner != address(0)) {
+                allCampaigns[index] = campaigns[i];
+                index++;
+            }*/
+            if (!campaigns[i].isDeleted) {
                 allCampaigns[index] = campaigns[i];
                 index++;
             }
+        }
+        return allCampaigns;
+    }
+
+    function getAllCampaigns() public view returns (Campaign[] memory) {
+        Campaign[] memory allCampaigns = new Campaign[](numberOfCampaigns);
+        for (uint i = 0; i < numberOfCampaigns; i++) {
+            allCampaigns[i] = campaigns[i];
         }
         return allCampaigns;
     }
