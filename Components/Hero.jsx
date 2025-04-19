@@ -113,7 +113,7 @@ const Hero = ({titleData , createCampaign}) => {
                                                 required
                                                 type="text"
                                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 
-                                                rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                                                rounded shadow-sm appearance-none focus:border-deep-green-accent-800 focus:outline-none focus:shadow-outline"
                                                 id="firstName"
                                                 name="firstName"
                                             />
@@ -138,7 +138,7 @@ const Hero = ({titleData , createCampaign}) => {
                                                 required
                                                 type="text"
                                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 
-                                                rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                                                rounded shadow-sm appearance-none focus:border-deep-green-accent-800 focus:outline-none focus:shadow-outline"
                                                 id="lastName"
                                                 name="lastName"
                                             />
@@ -163,7 +163,7 @@ const Hero = ({titleData , createCampaign}) => {
                                                 required
                                                 type="text"
                                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 
-                                                rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                                                rounded shadow-sm appearance-none focus:border-deep-green-accent-800 focus:outline-none focus:shadow-outline"
                                                 id="email"
                                                 name="email"
                                             />
@@ -188,7 +188,7 @@ const Hero = ({titleData , createCampaign}) => {
                                                 required
                                                 type="date"
                                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 
-                                                rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                                                rounded shadow-sm appearance-none focus:border-deep-green-accent-800 focus:outline-none focus:shadow-outline"
                                                 id="email"
                                                 name="email"
                                             />
