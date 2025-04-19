@@ -1,5 +1,13 @@
 import React from "react" ;
 
+/**
+ * Menu Component
+ * Renders a hamburger menu icon used typically for toggling navigation on mobile.
+ *
+ * Accessibility:
+ * - Includes role and title for screen readers.
+ */
+
 const Menu = () => {
   return (
    <svg className="w-5 text-white" viewBox="0 0 24 24">

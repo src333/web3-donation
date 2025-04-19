@@ -3,16 +3,30 @@ import Logo from "./Logo";
 import Menu from "./Menu"; 
 import { CrowdFundingContext } from "../Context/CrowdFunding";
 
+/**
+ * NavBar Component
+ *
+ * Displays a responsive navigation bar with dynamic menu items based on user type (admin or not).
+ * Features:
+ * - Wallet connection state and address visibility
+ * - Admin label for admins
+ * - Responsive design with hamburger menu for mobile
+ * - Accessibility best practices with aria attributes
+ */
+
 const NavBar = () => {
   const {currentAccount ,connectWallet , isAdmin} = useContext(CrowdFundingContext);
   const [isMenuOpen , setIsMenuOpen] = useState(false);
   //const menuList = ["white paper", "project","donation","members"];
+  // Define core menu list and append 'dashboard' if user is an admin
   const baseMenuList = ["Home", "About", "Donation", "Contact" , "Education"];
   const menuList = isAdmin ? [...baseMenuList, "dashboard"] : baseMenuList;
+
   return (
    <div className="bg-green-700">
       <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
           <div className="relative flex items-center justify-between">
+               {/* Logo and Desktop Menu */}
               <div className="flex items-center">
                 <a
                   href="/"
@@ -25,6 +39,7 @@ const NavBar = () => {
                      Mosque
                   </span>
                 </a>
+                  {/* Main menu which only visible on desktop */}
                 <ul className="flex items-center hidden space-x-8 lg:flex">
                   {menuList.map((el , i) => (
                     <li key={i+1}>
@@ -40,6 +55,8 @@ const NavBar = () => {
                   ))}
                 </ul>
               </div>
+
+              {/* Wallet Connection interface for the Desktop*/}
               <ul className="flex items-center hidden space-x-8 lg:flex">
                 <li>
                   {currentAccount ? (
@@ -68,6 +85,7 @@ const NavBar = () => {
                 </li>
               </ul>
 
+               {/* Mobile menu Icon */}
               <div className="lg:hidden z-40">
                 <button
                   aria-label="Open Menu"
@@ -77,9 +95,11 @@ const NavBar = () => {
                 >
                   <Menu />
                 </button>
+                {/* Mobile Menu interface enhanced for responsiveness */}
                 {isMenuOpen && (
                   <div className="absolute top-0 left-0 w-full">
                     <div className="p-5 bg-white border rounded shadow-sm">
+                       {/*  Header interface inside the dropdown menu for mobile phone and smaller screens */}
                       <div className="flex items-center justify-between mb-4">
                         <div>
                         <a
@@ -114,6 +134,8 @@ const NavBar = () => {
                         </button>
                       </div>
                     </div>
+
+                    {/*  Mobile Navigation Items inside dropdown interface */}
                     <nav>
                       <ul className="space-y-4">
                         {menuList.map((el ,i) => (
@@ -127,7 +149,9 @@ const NavBar = () => {
                               {el}
                             </a>
                           </li>
-                        ))}                       
+                        ))}  
+
+                        {/* Wallet Connection feature for Mobile and smaller screens */}                     
                         <li>
                           {currentAccount ? (
                             <div className="flex flex-col gap-2 items-start text-sm text-gray-800">
@@ -135,7 +159,7 @@ const NavBar = () => {
                                 Connected: {currentAccount.slice(0, 6)}...{currentAccount.slice(-4)}
                               </span>
                               {isAdmin && (
-                                <span className="bg-purple-700 text-black px-2 py-1 rounded-md text-xs font-semibold">
+                                <span className="bg-green-900 text-white px-2 py-1 rounded-md text-xs font-semibold">
                                   Admin Account
                                 </span>
                               )}
@@ -145,7 +169,7 @@ const NavBar = () => {
                               onClick={connectWallet}
                               className="inline-flex items-center justify-center w-full h-12 px-6 font-medium
                                 tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-600 
-                                hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+                                hover:bg-green-700 focus:shadow-outline focus:outline-none"
                             >
                               Connect Wallet
                             </button>
