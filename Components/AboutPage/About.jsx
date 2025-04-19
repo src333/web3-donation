@@ -1,6 +1,18 @@
 import React from "react";
 import InfoCard from "./InfoCard";
 
+/**
+ * About Component
+ *
+ * This page provides a detailed overview of the mosque:
+ * - Its history and milestones
+ * - Aims, mission, and structure
+ * - Current activities and facilities
+ *
+ * It uses `InfoCard` components to separate sections and includes
+ * a visually engaging hero and wave design.
+ */
+
 export default function About() {
   return (
     <div className="relative bg-opacity-75 ">
@@ -26,6 +38,7 @@ export default function About() {
 
       {/* Main content below the wave */}
       <div className="relative z-10 bg-white pt-16 pb-10 px-6 md:px-20 max-w-6xl mx-auto">
+          {/*  Background History  */}
         <InfoCard className="mb-10">
           <h2 className="text-2xl font-semibold mb-4 text-green-700 text-center">Background History</h2>
           <p className="text-gray-800 leading-relaxed">
@@ -38,6 +51,7 @@ export default function About() {
           </p>
         </InfoCard>
 
+         {/*  Aims & Objectives of the mosque */}
         <InfoCard className="mb-10">
           <h2 className="text-2xl font-semibold mb-4 text-green-700 text-center">Aims and Objectives of the Mosque</h2>
           <p className="text-gray-800 leading-relaxed space-y-2">
@@ -51,6 +65,7 @@ export default function About() {
           </p>
         </InfoCard>
 
+         {/*  Timeline Section  */}
         <InfoCard className="mb-10">
           <h2 className="text-2xl font-semibold mb-4 text-green-700 text-center">Timelines of Stepney Shahjalal Mosque</h2>
           <p className="text-gray-800 leading-relaxed space-y-2">
@@ -74,6 +89,7 @@ export default function About() {
           </p>
         </InfoCard>
 
+         {/*  Construction Milestones section */}
         <InfoCard className="mb-10">
           <h2 className="text-2xl font-semibold mb-4 text-green-700 text-center">Works Done Towards Building This Mosque</h2>
           <p className="text-gray-800 leading-relaxed">
@@ -81,6 +97,7 @@ export default function About() {
           </p>
         </InfoCard>
 
+        {/*  Progress Update section */}
         <InfoCard>
           <h2 className="text-2xl font-semibold mb-4 text-green-700 text-center">Progress of Construction Work</h2>
           <p className="text-gray-800 leading-relaxed">
@@ -90,6 +107,7 @@ export default function About() {
             <br />
             <b>2017</b> - Final architectural and engineering drawings were completed. Foundation design finalized and archaeological brief concluded.
           </p>
+          {/* Additional remarks about vision and funding */}
           <p className="mt-4 text-gray-800">
             It was a dream of the Muslim residents of St Dunstan ward and surrounding areas to have a purpose-built Mosque and Community hub since 1985. With all legal and planning approvals secured, the aim was to complete construction within 18 months and remove the temporary portacabins.
           </p>
@@ -102,10 +120,11 @@ export default function About() {
         <section className="py-16 px-4 bg-white text-gray-900">
           <div className="max-w-6xl mx-auto">
             <header className="mb-12 text-center">
+              {/* Title & Description */}
               <h2 className="text-3xl font-semibold mb-2 text-green-800">Current Activities of the Mosque</h2>
               <p className="text-gray-600">An overview of regular programs and facilities offered by Stepney Shahjalal Mosque</p>
             </header>
-
+               {/* Grid of current programs like 5 daily prayer, Jummah and others */}
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {[{
                   title: "5 Daily Prayers",
@@ -130,7 +149,7 @@ export default function About() {
                 </div>
               ))}
             </div>
-
+             {/* wome services section */}
             <div className="mt-16">
               <h3 className="text-2xl font-semibold text-green-800 mb-4">Facilities for Women</h3>
               <div className="space-y-4 text-gray-700">

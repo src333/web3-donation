@@ -1,5 +1,12 @@
 import React from "react";
 
+/**
+ * Home Page Component
+ * 
+ * A landing page introducing the mosque and its mission, 
+ * featuring a hero banner, welcome section, key objectives, and a vision video.
+ */
+
 export default function Home() {
   return (
     <>
@@ -58,7 +65,7 @@ export default function Home() {
               },
               {
                 title: "Islamic Education",
-                desc: "Teaching Qur’an and Sunnah for men, women, and children.",
+                desc: "Teaching Qur'an and Sunnah for men, women, and children.",
               },
               {
                 title: "Community Services",
@@ -81,7 +88,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Embedded Video */}
+       {/* Vision & Promotional Video */}
       <section className="bg-white py-16 px-6 md:px-20 max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center gap-10">
           <div className="flex-1">
@@ -92,6 +99,7 @@ export default function Home() {
               With your help, we aim to complete a purpose-built mosque and cultural centre for 3000+ worshippers, offering essential services and space for all.
             </p>
           </div>
+           {/* Embedded YouTube Video  */}
           <div className="flex-1">
             <iframe
               className="w-full h-64 md:h-72 rounded-lg shadow-md"

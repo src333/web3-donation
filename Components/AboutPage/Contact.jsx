@@ -1,11 +1,21 @@
 import React from "react";
 
+/**
+ * Contact Component
+ *
+ * A clean and user-friendly contact page with:
+ * - SVG hero section
+ * - Contact form (name, email, subject, message)
+ * - Mosque address, phone, and email sections
+ * - Embedded Google Map for location visibility
+ */
+
 const Contact = () => {
   return (
     
     <div className="px-0 py-0 sm:px-0 lg:px-0 bg-white text-gray-800">
       <div className="relative bg-green-700 text-white py-16 text-center">
-        {/* SVG wave */}
+         {/*  wave using SVG to create a smooth transition into the white background consistent with all pages*/}
         <svg
           className="absolute bottom-0 left-0 w-full h-20 text-white"
           viewBox="0 0 1160 163"
@@ -19,12 +29,14 @@ const Contact = () => {
           />
         </svg>
       </div>
+      {/* Main container */}
       <div className="max-w-7xl mx-auto">
-        
+        {/* Page Title */}
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-5xl font-bold text-green-800 mb-2">
             Contact Us
           </h1>
+          {/* contact form and infomation section */}
           <p className="text-gray-600">We'd love to hear from you.</p>
         </div>
         <div className="px-4 py-10 sm:px-6 lg:px-20 bg-white text-gray-800">
@@ -40,7 +52,7 @@ const Contact = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
                 />
               </div>
-
+              {/* Email Field */}
               <div>
                 <label className="block mb-1 font-medium text-green-800">Email</label>
                 <input
@@ -49,7 +61,7 @@ const Contact = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
                 />
               </div>
-
+               {/* Subject Field */}
               <div>
                 <label className="block mb-1 font-medium text-green-800">Subject</label>
                 <input
@@ -58,7 +70,7 @@ const Contact = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
                 />
               </div>
-
+               {/* Message Field */}
               <div>
                 <label className="block mb-1 font-medium text-green-800">Message</label>
                 <textarea
@@ -67,7 +79,7 @@ const Contact = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
                 ></textarea>
               </div>
-
+               {/* Submit Button */}
               <button
                 type="submit"
                 className="bg-green-700 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-900 transition cursor-pointer"
@@ -77,20 +89,20 @@ const Contact = () => {
             </form>
           </div>
 
-          {/* Address & Info */}
+          {/* Address & contact information */}
           <div className="space-y-6 text-green-900">
             <div className="p-4 bg-gray-100 rounded-lg shadow">
               <h2 className="text-xl font-bold mb-2">Our Address</h2>
               <p>81-83 Duckett Street, E1 4TD</p>
               <p>London, United Kingdom</p>
             </div>
-
+             {/* Phone and contact numbers */}
             <div className="p-4 bg-gray-100 rounded-lg shadow">
               <h2 className="text-xl font-bold mb-2">Phone</h2>
               <p><a href="tel:02072658603">020 7265 8603</a></p>
               <p><a href="tel:07442490694">07442 490694</a></p>
             </div>
-
+             {/* email information to reach out to us */}
             <div className="p-4 bg-gray-100 rounded-lg shadow">
               <h2 className="text-xl font-bold mb-2">Email</h2>
               <p><a href="mailto:info@yourmosque.org.uk">info@yourmosque.org.uk</a></p>

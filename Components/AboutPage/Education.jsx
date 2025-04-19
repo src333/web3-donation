@@ -1,6 +1,17 @@
 // Components/AboutPage/Education.jsx
 import React from "react";
 
+/**
+ * Education Page
+ *
+ * A comprehensive step-by-step guide explaining:
+ * - What crypto donations are
+ * - How to use the donation platform
+ * - Visual steps for onboarding
+ * - Video walkthrough and FAQs
+ */
+
+// List of interactive steps for user onboarding
 const steps = [
   {
     step: "Step 1",
@@ -57,6 +68,7 @@ const Education = () => {
           />
         </svg>
       </div>
+      {/* Page Introduction */}
       <section className="px-4 py-10 sm:px-6 lg:px-20 max-w-7xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-5xl font-bold text-green-800 mb-2">
@@ -137,29 +149,27 @@ const Education = () => {
           ))}
         </div>
 
-        {/* FAQ */}
+        {/* FAQ sections */}
         <div className="mt-16">
           <h2 className="text-3xl font-bold text-green-800 text-center mb-6">Frequently Asked Questions</h2>
           <div className="space-y-6 max-w-4xl mx-auto">
+            {/* Question 1 */}
             <div className="p-5 bg-gray-100 rounded shadow">
               <h3 className="font-semibold text-lg text-gray-800">Do I need to understand blockchain to donate?</h3>
               <p className="text-gray-600">No, our platform is designed to be easy for everyone, regardless of experience level. Just follow the steps above.</p>
             </div>
-
+            {/* Question 2 */}
             <div className="p-5 bg-gray-100 rounded shadow">
               <h3 className="font-semibold text-lg text-gray-800">Is it safe to use my crypto wallet here?</h3>
               <p className="text-gray-600">Yes. We use decentralized smart contracts to ensure security. You control your funds at all times.</p>
             </div>
-
+            {/* Question 3 */}
             <div className="p-5 bg-gray-100 rounded shadow">
               <h3 className="font-semibold text-lg text-gray-800">Can I see who donated to a campaign?</h3>
               <p className="text-gray-600">Yes. Donations are public and can be viewed transparently on each campaign.</p>
             </div>
           </div>
         </div>
-
-        {/* SVG Curve */}
-
       </section>
     </div>
   );
