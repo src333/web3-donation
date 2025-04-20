@@ -85,4 +85,8 @@ developer logs: iteration 1
 38. refined dashboard css for a more consistent colour scheme
 39. improve ux with cursors and highlights when hovering over certain features like buttons and navigation buttons for better clarity
 40. i edited the logo.jsx file to create an svg befitting of a website for a mosque , to logo replicates that off a mosque for good use of context and ui/ux
-41. i was planning to create a what do we do page but i decided to mergw its contents with my current about.jsx page
+41. i was planning to create a what do we do page but i decided to merge its contents with my current about.jsx page
+42. improve functionality for the campaigntable and transaction ledger so that its scalable by adding a page system when either too many transaction or campaings are made
+43. commented code for all componenets
+44. commented code for front-end crowfunding.js and contants.js files in context folder thoroughly
+45. commented all smart contracts using best practises
