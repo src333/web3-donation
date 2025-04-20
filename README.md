@@ -90,3 +90,5 @@ developer logs: iteration 1
 43. commented code for all componenets
 44. commented code for front-end crowfunding.js and contants.js files in context folder thoroughly
 45. commented all smart contracts using best practises
+46. commented all files in the pages folder
+47. commented the deploy script in my scripts folder

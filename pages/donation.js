@@ -1,18 +1,39 @@
+// Import React and necessary hooks for state and lifecycle management
 import React, {useEffect , useContext , useState} from "react" ;
+
+// Import the global context that handles blockchain interactions and state
 import { CrowdFundingContext } from "../Context/CrowdFunding";
+
+// Import local reusable UI components
 import {Hero , Card , PopUp} from "../Components";
 
+
+/**
+ * Donation Page
+ * 
+ * This is the main donation route (`/donation`) where users can:
+ * - View all campaigns
+ * - View their own created campaigns
+ * - Open a donation popup to contribute ETH
+ * 
+ * It also connects to the smart contract to retrieve campaign and donation data.
+ */
 const index = () => {
+
+  // Destructure values and functions from the CrowdFundingContext
   const {
-    titleData, 
-    getCampaigns, 
-    createCampaign, 
-    donate, 
-    getUserCampaigns, 
-    getDonations, 
+    titleData,             // Hero banner title
+    getCampaigns,          // Fetch all active (non-deleted) campaigns
+    createCampaign,        // Function to create a new campaign (admin only)
+    donate,                // Function to send ETH to a campaign
+    getUserCampaigns,      // Get campaigns created by the current wallet
+    getDonations,          // Get donation history for a campaign
   } = useContext(CrowdFundingContext);
 
+  // State to hold all campaigns from the blockchain
   const [allcampaign, setAllcampaign] = useState();
+
+  // State to hold only campaigns created by the current user
   const [usecampaign, setUsercampaign]= useState();
 
   /*useEffect(() => {
@@ -26,10 +47,11 @@ const index = () => {
     } ;
   }, []); */
 
+   // Fetch campaign data when component mounts
   useEffect(() => {
     const fetchData = async () => {
-      const allData = await getCampaigns(); 
-      const userData = await getUserCampaigns();
+      const allData = await getCampaigns();           // All public campaigns
+      const userData = await getUserCampaigns();      // Campaigns owned by this user
       setAllcampaign(allData);
       setUsercampaign(userData);
     };
@@ -39,14 +61,20 @@ const index = () => {
   
 
   // donation popup model
+  // State to control the donation popup visibility
   const [openModel , setOpenModel] = useState(false);
+
+  // State to track which campaign the user wants to donate to
   const [donateCampaign, setDonateCampaign] = useState();
 
+  // Debug: show selected donation target
   console.log(donateCampaign);
   return(
     <>
+      {/* Top section banner with create campaign button (for admins) */}
       <Hero titleData={titleData} createCampaign={createCampaign}/>
 
+      {/* All public campaigns */}
       <Card 
         titleData="All Listed Campaign"
         allcampaign={allcampaign}
@@ -54,6 +82,7 @@ const index = () => {
         setDonate={setDonateCampaign}
       />
 
+       {/* Campaigns created by the current wallet user */}
       <Card
         titleData="Your Created Campaign"
         allcampaign={allcampaign}
@@ -61,6 +90,7 @@ const index = () => {
         setDonate={setDonateCampaign}
       />
 
+       {/* Donation popup modal */}
       {openModel && (
         <PopUp
           setOpenModel={setOpenModel}
