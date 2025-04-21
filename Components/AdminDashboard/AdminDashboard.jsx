@@ -1,7 +1,7 @@
 import React from "react";
 import StatsPanel from "./StatsPanel";
 import DonationTimeline from "./DonationTimeline";
-import TransactionLedger from "./TransactionLedger";
+import TransactionLedger from "../../Components/AdminDashboard/TransactionLedger";
 import CampaignTable from "./CampaignTable";
 
 /**

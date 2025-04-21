@@ -26,6 +26,11 @@ import { CrowdFundingContext } from "../Context/CrowdFunding";
 // Import local reusable UI components
 import {Hero , Card , PopUp} from "../Components";
 
+//imports ledger component 
+import TransactionLedger from "../Components/AdminDashboard/TransactionLedger";
+import PublicTransactionLedger from "../Components/PublicTransactionLedger";
+
+
 
 /**
  * Donation Page
@@ -118,7 +123,13 @@ const index = () => {
           donateFunction={donate}
         />
       )}
+
+      {/*  Add Transaction Ledger Below  */}
+      <PublicTransactionLedger />
+
+
     </>
+    
   );
 };
 

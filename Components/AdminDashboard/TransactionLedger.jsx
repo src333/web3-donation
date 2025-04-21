@@ -32,26 +32,41 @@ const formatTime = (timestamp) => {
  * Automatically fetches from blockchain using context.
  */
 const TransactionLedger = () => {
-  const { getAllCampaigns, getDonations, currentAccount } = useContext(CrowdFundingContext);
+  //const { getAllCampaigns, getDonations, currentAccount } = useContext(CrowdFundingContext);
+  const { getAllCampaigns, getDonations, isAdminAddress } = useContext(CrowdFundingContext);
+
 
   const [transactions, setTransactions] = useState([]);        // All donation transactions
   const [currentPage, setCurrentPage] = useState(1);           // Current visible page in pagination
   const itemsPerPage = 7;                                      // Max items to show per page
 
+  
+
   /**
-   * useEffect: Fetches all campaign donations once on component mount.
-   * Includes deleted campaigns and sorts by most recent.
-   */
+  * Loads all campaigns and their associated donations,
+  * enriches each donation with metadata (timestamps, admin flags),
+  * and stores the result in state for UI display.
+  */
   useEffect(() => {
     const loadTransactions = async () => {
-      const campaigns = await getAllCampaigns();               // Get all campaigns (active + deleted)
+
+        // Fetch all campaigns (active + deleted)
+      const campaigns = await getAllCampaigns();
+
+      // Temporary array to accumulate parsed transaction data
       let all = [];
-
-      // Collect all donation data from each campaign
+  
+      // Loop through every campaign to collect its donations
       for (const campaign of campaigns) {
-        const donations = await getDonations(campaign.pId);
+        const donations = await getDonations(campaign.pId);  // Get donation records for each campaign
 
-        donations.forEach((donation) => {
+         // Loop through each donation entry
+        for (const donation of donations) {
+          // Check if donor and campaign owner are admins
+          const fromIsAdmin = await isAdminAddress(donation.donator);
+          const toIsAdmin = await isAdminAddress(campaign.owner);
+          
+          // Push formatted transaction data to the array
           all.push({
             date: formatDate(donation.timestamp),
             time: formatTime(donation.timestamp),
@@ -61,19 +76,21 @@ const TransactionLedger = () => {
             campaignId: campaign.pId,
             amount: parseFloat(donation.donation),
             isDeleted: campaign.isDeleted || false,
-            rawTimestamp: Number(donation.timestamp) * 1000, // For JS-based sorting
+            rawTimestamp: Number(donation.timestamp) * 1000,
+            fromIsAdmin,
+            toIsAdmin,
           });
-        });
+        }
       }
-
-      // Sort newest to oldest by timestamp
-      all.sort((a, b) => b.rawTimestamp - a.rawTimestamp);
-
-      setTransactions(all); // Store result
+      
+      all.sort((a, b) => b.rawTimestamp - a.rawTimestamp); // Sort transactions from most recent to oldest
+      setTransactions(all);  // Store result
     };
-
+  
     loadTransactions(); // Trigger on mount
   }, []);
+  
+
 
   /**
    * Determines if a given address belongs to the current admin wallet.
@@ -82,7 +99,7 @@ const TransactionLedger = () => {
   const isCurrentAdmin = (address) =>
     currentAccount && address.toLowerCase() === currentAccount.toLowerCase();
 
-  // --- Pagination calculations ---
+  //  Pagination calculations 
   const indexOfLastItem = currentPage * itemsPerPage;                      // Ending index
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;                // Starting index
   const currentItems = transactions.slice(indexOfFirstItem, indexOfLastItem); // Page slice
@@ -131,7 +148,7 @@ const TransactionLedger = () => {
                 <span title={tx.from} className="text-green-700">
                   {shortenAddress(tx.from)}
                 </span>
-                {isCurrentAdmin(tx.from) && (
+                {tx.fromIsAdmin && (
                   <span className="ml-1 text-xs bg-gray-100 text-black px-1 py-0.5 rounded">
                     Admin
                   </span>
@@ -143,12 +160,13 @@ const TransactionLedger = () => {
                 <span title={tx.to} className="text-green-700">
                   {shortenAddress(tx.to)}
                 </span>
-                {isCurrentAdmin(tx.to) && (
+                {tx.toIsAdmin && (
                   <span className="ml-1 text-xs bg-gray-100 text-black px-1 py-0.5 rounded">
                     Admin
                   </span>
                 )}
               </td>
+
 
               {/* Campaign Title + Deleted Flag */}
               <td className="px-6 py-3">

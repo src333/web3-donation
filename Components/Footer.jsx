@@ -59,7 +59,7 @@ const Footer = () => {
               About the Mosque
             </h2>
             <p className="text-sm leading-relaxed">
-              Located in the heart of Tower Hamlets, Stepney Shahjalal Mosque has served
+              Located in the heart of Tower Hamlets, Sahar Mosque has served
               the community since 1985, offering prayer, education, and social services.
             </p>
           </section>

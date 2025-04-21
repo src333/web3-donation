@@ -82,12 +82,13 @@ const Hero = ({titleData , createCampaign}) => {
                     <div className="flex flex-col items-center justify-between xl:flex-row">
                         {/* Hero Text Block */}
                         <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
-                            <h2 className=" max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-5xl sm:leading-none">
-                                Crypto Mosque <br className="hidden md:block"/>
-                                Crowd Funding CK
+                        <h2 className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-5xl sm:leading-none">
+                            Sahar Mosque <br className="hidden md:block" />
+                             Crowdfunding Platform
                             </h2>
                             <p className="max-w-xl mb-4 text-base text-gray-200 md:text-lg">
-                                sed ut perspiciatis unde iste natus error sit voluptatem accusantium doloremque laudan, totam aperiam, eaque ipsa quae.
+                            Empowering our local community through collective giving. Support mosque projects, 
+                            educational programs, and social initiatives — all transparently managed on the blockchain.
                             </p>
                             <a 
                                 href="/"

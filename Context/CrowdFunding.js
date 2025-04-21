@@ -86,6 +86,27 @@ export const CrowdFundingProvider = ({children}) => {
           setIsAdmin(false);  // set status to false if anything occours to cause a failure
         }
     };
+
+
+
+    /**
+    * Checks if any given address is an admin (used for ledger display).
+    * created to fix admin badge bug on the transaction ledger 
+    * @param {string} address - Wallet address to check
+    * @returns {boolean} True if address is an admin
+    */
+    const isAdminAddress = async (address) => {
+      try {
+        const provider = new ethers.JsonRpcProvider(); // read-only
+        const contract = fetchContract(provider);
+        const result = await contract.isAdmin(address);
+        return result;
+      } catch (error) {
+        console.error("Failed to check admin status for address:", address, error);
+        return false;
+      }
+    };
+
       
 
     /**
@@ -666,6 +687,7 @@ export const CrowdFundingProvider = ({children}) => {
                 updateCampaign,
                 deleteCampaign,
                 getAllCampaigns,
+                isAdminAddress,
             }}
         >
             {/* Provide all of the above to children components */}

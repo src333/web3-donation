@@ -108,7 +108,7 @@ const Education = () => {
               <li>Instant transaction confirmations</li>
               <li>Lower processing fees than traditional systems</li>
               <li>Donor anonymity, if desired</li>
-              <li>Decentralized and secure systems</li>
+              <li>Decentralised and secure systems</li>
               <li>Trackable donation transparency</li>
             </ul>
           </div>
@@ -129,10 +129,10 @@ const Education = () => {
         </div>
 
         {/* Step-by-step Visual Guide */}
-        <div className="mt-24 space-y-16">
-          <h2 className="text-3xl font-bold text-green-800 mb-6 text-center">Step-by-Step Visual Guide</h2>
+        <div className="mt-24 space-y-16 ">
+          <h2 className="text-3xl font-bold text-green-800 mb-6 text-center ">Step-by-Step Visual Guide</h2>
           {steps.map((item, index) => (
-            <div key={index} className="grid lg:grid-cols-2 gap-10 items-center">
+            <div key={index} className="grid lg:grid-cols-2 gap-10 items-center p-6 bg-gray-50 rounded-xl shadow-md">
               <div>
                 <h3 className="text-2xl font-bold mb-2 text-green-700">{item.step}: {item.title}</h3>
                 <p className="text-gray-700 text-lg">{item.description}</p>
@@ -161,7 +161,7 @@ const Education = () => {
             {/* Question 2 */}
             <div className="p-5 bg-gray-100 rounded shadow">
               <h3 className="font-semibold text-lg text-gray-800">Is it safe to use my crypto wallet here?</h3>
-              <p className="text-gray-600">Yes. We use decentralized smart contracts to ensure security. You control your funds at all times.</p>
+              <p className="text-gray-600">Yes. We use decentralised smart contracts to ensure security. You control your funds at all times.</p>
             </div>
             {/* Question 3 */}
             <div className="p-5 bg-gray-100 rounded shadow">
@@ -170,6 +170,83 @@ const Education = () => {
             </div>
           </div>
         </div>
+        
+        {/* Ledger Education Section */}
+        <div className="mt-24 space-y-8">
+          <h2 className="text-3xl font-bold text-green-800 text-center mb-6">
+            How to Read the Donation Ledger
+          </h2>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {/* Date & Time */}
+            <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <h3 className="text-xl font-semibold text-green-700 mb-2"> Date & Time</h3>
+              <p className="text-gray-700">
+                Each row in the ledger includes the exact date and time the donation was made, pulled directly from the blockchain timestamp.
+              </p>
+            </div>
+
+            {/* From / To */}
+            <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <h3 className="text-xl font-semibold text-green-700 mb-2"> From / To</h3>
+              <p className="text-gray-700">
+                The donor's wallet address (From) and the campaign owner's address (To) are shown. These are pseudonymous but verifiable through tools like Etherscan.
+              </p>
+            </div>
+
+            {/* Campaign Info */}
+            <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <h3 className="text-xl font-semibold text-green-700 mb-2"> Campaign Title / ID</h3>
+              <p className="text-gray-700">
+                Indicates which campaign the donation went to. IDs are unique and mapped on-chain, while titles help human readers identify the cause.
+              </p>
+            </div>
+
+            {/* ETH Amount */}
+            <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <h3 className="text-xl font-semibold text-green-700 mb-2"> Amount Donated (ETH)</h3>
+              <p className="text-gray-700">
+                The total ETH donated, converted from its base unit (Wei) into readable ETH values for clarity.
+              </p>
+            </div>
+
+            {/* Deleted Indicator */}
+            <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+              <h3 className="text-xl font-semibold text-green-700 mb-2"> Deleted Campaigns</h3>
+              <p className="text-gray-700">
+                Campaigns that have been soft-deleted are marked accordingly in the ledger. Their data is preserved for accountability.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Understanding Etherscan */}
+        <div className="mt-20">
+          <h2 className="text-3xl font-bold text-green-800 text-center mb-6">
+            Navigating Etherscan for Deeper Insights
+          </h2>
+
+          <div className="max-w-4xl mx-auto bg-gray-50 rounded-xl p-6 shadow-md space-y-4">
+            <p className="text-gray-700">
+              <strong>Etherscan</strong> is a public blockchain explorer that lets you verify any transaction. You don’t need to register or log in.
+            </p>
+
+            <ol className="list-decimal list-inside text-gray-700 space-y-2">
+              <li>Copy a wallet address or transaction hash from our donation ledger.</li>
+              <li>Go to <a href="https://etherscan.io" target="_blank" rel="noopener noreferrer" className="text-green-700 underline font-semibold">etherscan.io</a>.</li>
+              <li>Paste the address into the search bar and press enter.</li>
+              <li>You’ll see a list of transactions. Click any to view full details — including gas fees, status, block confirmations, and more.</li>
+            </ol>
+
+            <p className="text-gray-700">
+              Etherscan helps ensure that every ETH movement on our platform is traceable and public.
+            </p>
+          </div>
+        </div>
+
+
+
+        
       </section>
     </div>
   );
