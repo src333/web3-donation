@@ -1,36 +1,36 @@
 // Import necessary React utilities
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";                                                         // from tutorial 
 // Web3Modal is a library that simplifies wallet connection (e.g., in our case MetaMask)
-import Web3Modal from "web3modal";
+import Web3Modal from "web3modal";                                                                        // from tutorial 
 // Ethers.js is the main library used to interact with the Ethereum blockchain
-import {ethers} from "ethers";
+import {ethers} from "ethers";                                                                            // from tutorial 
 
 // Internal imports: ABI (contract interface) and deployed contract address
-import { CrowdFundingABI, CrowdFundingAddress } from "./contants";
+import { CrowdFundingABI, CrowdFundingAddress } from "./contants";                                        // from tutorial 
 
 
 
 // Utility: fetchContract()
 // Dynamically returns a contract instance using either a provider (read-only)
 // or a signer (for sending transactions)
-const fetchContract = (singerOrProvider) => 
-    new ethers.Contract(CrowdFundingAddress, CrowdFundingABI, singerOrProvider);
+const fetchContract = (singerOrProvider) =>                                                                 // from tutorial 
+    new ethers.Contract(CrowdFundingAddress, CrowdFundingABI, singerOrProvider);                            // from tutorial 
 
 // Create a new Context object for the CrowdFunding dApp
-export const CrowdFundingContext = React.createContext();
+export const CrowdFundingContext = React.createContext();                                                   // from tutorial 
 
 // Context Provider
 // This component wraps your application and provides all blockchain-related functions and state
-export const CrowdFundingProvider = ({children}) => {
+export const CrowdFundingProvider = ({children}) => {                                                       // from tutorial 
 
     // Title shown in UI (optional, used in dashboards)
-    const titleData = "Crowd Funding Contract";
+    const titleData = "Crowd Funding Contract";                                                             // from tutorial 
 
      // Connected wallet address (empty string if not connected)
-    const [currentAccount , setCurrentAccount] = useState("");
+    const [currentAccount , setCurrentAccount] = useState("");                                              // from tutorial 
 
     // Boolean flag: true if connected user is an admin (on-chain verification)
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);                                                          
 
 
  
@@ -74,48 +74,48 @@ export const CrowdFundingProvider = ({children}) => {
     *   - amount: string (in ETH)
     *   - deadline: string (date input)
     */
-    const createCampaign = async (campaign) => {
+    const createCampaign = async (campaign) => {                                                // from tutorial 
         // Destructure form input values
-        const {title , description , amount , deadline} = campaign; 
+        const {title , description , amount , deadline} = campaign;                             // from tutorial  
 
         // Initialise Web3Modal and prompt wallet connection (MetaMask, WalletConnect)
-        const web3Modal = new Web3Modal();
-        const connection = await web3Modal.connect();   // This opens the wallet popup
+        const web3Modal = new Web3Modal();                                                      // from tutorial 
+        const connection = await web3Modal.connect();   // This opens the wallet popup          // from tutorial 
 
         // Create an ethers.js provider using the connected wallet
-        const provider = new ethers.BrowserProvider(connection);
-
+        const provider = new ethers.BrowserProvider(connection);                                
+ 
         // Get the signer (represents the user account that will sign transactions)
-        const signer = await provider.getSigner();
+        const signer = await provider.getSigner();                                              // from tutorial 
 
         // Instantiate the contract using the signer (read & write access)
-        const contract= fetchContract(signer);
+        const contract= fetchContract(signer);                                                  // from tutorial 
         
         // For debugging purposes this will log the account trying to create a campaign
-        console.log(currentAccount);
+        console.log(currentAccount);                                                            // from tutorial 
 
-        try{
+        try{                                                                                    // from tutorial 
             // Send transaction to the contract's createCampaign function
-            const transaction = await contract.createCampaign(
-                //currentAccount ,
-                title , 
+            const transaction = await contract.createCampaign(                                  // from tutorial 
+                //currentAccount ,             
+                title ,                                                                         // from tutorial 
                 description,
                 //ethers.utils.parseUnits(amount, 18), 
-                ethers.parseUnits(amount, 18),
-                new Date(deadline).getTime()
+                ethers.parseUnits(amount, 18),                                                  // from tutorial 
+                new Date(deadline).getTime()                                                    // from tutorial 
             );
 
             // Wait for the transaction to be mined
-            await transaction.wait();
+            await transaction.wait();                                                           // from tutorial 
 
             // an optional reload for the page to refresh campaign list after creation 
             location.reload();
 
             // Log success for developer reference
-            console.log("contracy call success", transaction);
-        } catch (error) {
+            console.log("contracy call success", transaction);                                  // from tutorial 
+        } catch (error) {                                                                       // from tutorial 
             // Log failure reason to help with debugging
-            console.log("contract call failure", error);
+            console.log("contract call failure", error);                                        // from tutorial 
         }
     };
 
@@ -130,24 +130,24 @@ export const CrowdFundingProvider = ({children}) => {
     *
     * @returns {Array<Object>} - List of parsed campaigns with user-friendly structure
     */
-    const getCampaigns = async ()=> {
+    const getCampaigns = async ()=> {                                                                                // from tutorial 
 
         // Initialise a provider to read data from the blockchain
         // JsonRpcProvider connects to a local blockchain (e.g., Hardhat in our case) or a custom endpoint
-        const provider = new ethers.JsonRpcProvider();
+        const provider = new ethers.JsonRpcProvider();     
 
         // Create a read-only instance of the contract
-        const contract = fetchContract(provider);
+        const contract = fetchContract(provider);                                                                    // from tutorial 
 
         // Call the smart contract method to get all campaigns
         // This returns raw Solidity data like hex strings or bignumber for example 
-        const campaigns = await contract.getCampaigns();
+        const campaigns = await contract.getCampaigns();                                                             // from tutorial 
 
         // Transform the raw blockchain data into a readable format
-        const parsedCampaigns = campaigns.map((campaign,i) => ({
-            owner: campaign.owner,                     // Wallet address of campaign creator
-            title: campaign.title,                     // Title of the campaign
-            description: campaign.description,         // Brief description of the campaign
+        const parsedCampaigns = campaigns.map((campaign,i) => ({                                                     // from tutorial 
+            owner: campaign.owner,                     // Wallet address of campaign creator                         // from tutorial 
+            title: campaign.title,                     // Title of the campaign                                      // from tutorial 
+            description: campaign.description,         // Brief description of the campaign                          // from tutorial 
 
             // Convert target from Wei which is the smallest units for eth, into ETH for UI readability
             target: ethers.formatEther(campaign.target),
@@ -165,7 +165,7 @@ export const CrowdFundingProvider = ({children}) => {
         }));
         
         // Returns the cleaned-up campaign list
-        return parsedCampaigns;
+        return parsedCampaigns;                                                                                     // from tutorial 
     };
 
 
@@ -180,7 +180,7 @@ export const CrowdFundingProvider = ({children}) => {
     *
     * @returns {Array<Object>} - List of campaigns created by the connected wallet
     */
-    const getUserCampaigns = async () => {
+    const getUserCampaigns = async () => {                                                    
         try {
           // Check if running in a browser with MetaMask installed
           if (typeof window === "undefined" || !window.ethereum) {
@@ -189,26 +189,26 @@ export const CrowdFundingProvider = ({children}) => {
           }
           
           // Create a read-only connection to the blockchain
-          const provider = new ethers.JsonRpcProvider();
+          const provider = new ethers.JsonRpcProvider();                                     // from tutorial 
 
           // Fetch the deployed contract instance using the provider
-          const contract = fetchContract(provider); 
+          const contract = fetchContract(provider);                                          // from tutorial 
 
           // Get all campaigns from the smart contract
-          const allCampaigns = await contract.getCampaigns();
+          const allCampaigns = await contract.getCampaigns();                                // from tutorial 
           
           // Request the list of user accounts from MetaMask
-          const accounts = await window.ethereum.request({
-            method: "eth_accounts",
+          const accounts = await window.ethereum.request({                                   // from tutorial 
+            method: "eth_accounts",                                                          
           });
           
           // Assume the first account is the connected wallet
-          const currentUser = accounts[0];
+          const currentUser = accounts[0];                                                   // from tutorial 
       
           // Filter campaigns to include only those created by the current user
-          const filteredCampaigns = allCampaigns.filter((campaign) => {
+          const filteredCampaigns = allCampaigns.filter((campaign) => {                       
             return (
-              campaign?.owner &&                                           // Ensures campaign has an owner
+              campaign?.owner &&                                           // Ensures campaign has an owner            
               currentUser &&                                               // Ensures user wallet is available
               campaign.owner.toLowerCase() === currentUser.toLowerCase()   // Match case-insensitive addresses
             );
@@ -227,7 +227,7 @@ export const CrowdFundingProvider = ({children}) => {
       
 
           // Return the filtered list of user-owned campaigns
-          return userData;
+          return userData;                                                                                   
 
 
         } catch (error) {
@@ -298,31 +298,31 @@ export const CrowdFundingProvider = ({children}) => {
     const donate = async (pId, amount) => {
 
         // Initialise Web3Modal popup to connect user wallet (MetaMask)
-        const web3Modal = new Web3Modal();
-        const connection = await web3Modal.connect();
+        const web3Modal = new Web3Modal();                                                               // from tutorial 
+        const connection = await web3Modal.connect();                                                    // from tutorial 
 
         // Create a provider using the browser wallet connection (MetaMask)
         const provider = new ethers.BrowserProvider(connection);
 
         // Get signer instance (the user's wallet) for sending transactions
-        const signer = await provider.getSigner();
+        const signer = await provider.getSigner(); 
 
         // Fetch the smart contract instance with signer (so we can write)
-        const contract = fetchContract(signer);
+        const contract = fetchContract(signer);                                                          // from tutorial 
 
         // Call the contract's donateToCampaign method with ETH value
-        const campaignData = await contract.donateToCampaign(pId , {
+        const campaignData = await contract.donateToCampaign(pId , {  
             value: ethers.parseEther(amount),   // Convert ETH string → BigNumber (in Wei)
         });
 
          // Wait for the blockchain to confirm the transaction
-        await campaignData.wait();
+        await campaignData.wait();                                                                       // from tutorial 
 
         // Refresh the page after successful donation
-        location.reload();
+        location.reload();                                                                               // from tutorial 
 
          // Return transaction object which was optional but used in case we want to track or debug
-        return campaignData;
+        return campaignData;                                                                             // from tutorial 
     };
 
 
@@ -428,12 +428,12 @@ export const CrowdFundingProvider = ({children}) => {
     * @param {number} pId - The ID of the campaign for which to fetch donation history
     * @returns {Array} Array of donation objects: { donator, donation (in ETH), timestamp (in ms) }
     */
-    const getDonations = async (pId) => {
-       // Connect to Ethereum network using default JSON-RPC provider (read-only)
+    const getDonations = async (pId) => {                                                                   // from tutorial 
+       // Connect to Ethereum network using default JSON-RPC provider (read-only)                           // from tutorial 
         const provider = new ethers.JsonRpcProvider();
 
         // Load the smart contract using provider (no signer needed for read calls)
-        const contract = fetchContract(provider);
+        const contract = fetchContract(provider);                                                           // from tutorial 
       
         try {
           // Fetch raw donor data from the contract. This function returns three parallel arrays:
@@ -450,7 +450,7 @@ export const CrowdFundingProvider = ({children}) => {
           }));
       
            // Return the structured donation list
-          return parsedDonations;
+          return parsedDonations;                                                                           // from tutorial 
         } catch (error) {
           // If something fails (e.g. invalid ID or connection error), return an empty array 
           console.error("Failed to get donations:", error);
@@ -468,17 +468,17 @@ export const CrowdFundingProvider = ({children}) => {
     *
     * It runs automatically (e.g. on app load) to detect and maintain wallet state.
     */
-    const checkIfWalletConnected = async () => {
-        try {
+    const checkIfWalletConnected = async () => {                                                         // from tutorial 
+        try {                                                                                             
           // Check if the browser has access to the Ethereum provider (e.g., MetaMask)
-            if (!window.ethereum) {
-                console.log("MetaMask not installed");
+            if (!window.ethereum) {                                                                      
+                console.log("MetaMask not installed");                                                  
                 return;                                 // Exit if no wallet is detected
             }
      
             // Request list of accounts that are authorised (connected) in MetaMask
-            const accounts = await window.ethereum.request({
-                method: "eth_accounts",
+            const accounts = await window.ethereum.request({                                             // from tutorial 
+                method: "eth_accounts",                                                                  // from tutorial 
             });
             
              // If at least one account is connected:
@@ -524,16 +524,16 @@ export const CrowdFundingProvider = ({children}) => {
     * If the user approves access, the wallet address is stored in state (`currentAccount`)
     * and admin status is also checked for permission-based UI logic.
     */
-    const connectWallet = async () => {
-        try {
-            // Checks if MetaMask (or another wallet provider) is installed
-            if (!window.ethereum) {
+    const connectWallet = async () => {                                                               // from tutorial 
+        try {                                                                                         // from tutorial 
+            // Checks if MetaMask (or another wallet provider) is installed 
+            if (!window.ethereum) {                                                                   // from tutorial 
                 alert("Please install MetaMask to use this feature.");
                 return;
             }
              // Requests access to wallet accounts will prompt the user for approval
-            const accounts = await window.ethereum.request({
-                method: "eth_requestAccounts",
+            const accounts = await window.ethereum.request({                                         // from tutorial 
+                method: "eth_requestAccounts",                                                        
             });
             
             // If the user approved and we received at least one account
@@ -564,8 +564,8 @@ export const CrowdFundingProvider = ({children}) => {
     * It makes the context values available throughout the app
     * to any components consuming the CrowdFundingContext.
     */
-    return (
-        <CrowdFundingContext.Provider
+    return (                                                                                             // from tutorial 
+        <CrowdFundingContext.Provider                                                                    
             value={{
                 titleData,
                 currentAccount,
@@ -583,7 +583,7 @@ export const CrowdFundingProvider = ({children}) => {
         >
             {/* Provide all of the above to children components */}
             {children}
-        </CrowdFundingContext.Provider>
+        </CrowdFundingContext.Provider>                                                                  // from tutorial 
     );
 
 
