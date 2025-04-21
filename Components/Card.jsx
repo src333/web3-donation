@@ -1,3 +1,25 @@
+/**
+ * Card Component
+ * 
+ * Based on: Daulat Hussain's Web3.0 Crowdfunding tutorial
+ * Source: https://www.youtube.com/watch?v=AcXVKkYnu1c&ab_channel=DaulatHussain
+ *
+ * Original Features:
+ * - Displays a grid of crowdfunding campaigns with minimal styling
+ * - Shows title, description, amount raised, target, and days left
+ * - Clicking a campaign opens a modal to donate
+ *
+ * Enhancements & Modifications by [Sahar Choudhury]:
+ * - Added edits for accessibility : aria-labels, keyboard navigation, semantic elements
+ * - Replaced <div> with semantic <article> and <section> tags
+ * - Added keyboard support (Enter key triggers donation modal)
+ * - Responsive typography and consistent Tailwind styles
+ * - Descriptive image alt text
+ * - Added prop type descriptions and internal comments
+ * - Improved naming conventions and JSX structure too a small extent 
+ */
+
+
 import React from "react";
 
 /**

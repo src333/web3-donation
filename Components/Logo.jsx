@@ -1,3 +1,17 @@
+/**
+ * Logo Component (SVG-based)
+ *
+ *  Inspired by: Daulat Hussain's Web3.0 Crowdfunding Tutorial
+ *  https://www.youtube.com/watch?v=AcXVKkYnu1c&ab_channel=DaulatHussain
+ *
+ *  Enhancements by Sahar Choudhury:
+ * - Replaced generic rectangular design with custom SVG representing a mosque
+ * - Added semantic structure: dome, mosque base, and a minarets on each side of the mosque base
+ * This icon visually aligns with the Islamic theme of the application,
+ * enhancing contextual UX/UI and visual branding consistency.
+ */
+
+
 import React from "react";
 
 const Logo = ({ color = "text-white" }) => {

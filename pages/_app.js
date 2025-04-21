@@ -1,3 +1,14 @@
+/**
+ * _app.js — Global Application Layout
+ *
+ *  Initially based on: Daulat Hussain’s Web3.0 Crowdfunding Tutorial
+ * https://www.youtube.com/watch?v=AcXVKkYnu1c
+ *
+ *   Modified & Expanded by Sahar Choudhury:
+ * - Added JSDoc-style comments for clarity
+ */
+
+
 // Global stylesheet import (Tailwind CSS, custom global styles)
 import "@/styles/globals.css";
 

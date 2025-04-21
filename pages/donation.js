@@ -1,3 +1,22 @@
+/**
+ *  Donation Page
+ *
+ *  Adapted from: Daulat Hussain’s Web3.0 Crowdfunding Tutorial (original 'index.js')
+ * https://www.youtube.com/watch?v=AcXVKkYnu1c
+ *
+ *  Enhancements by Sahar Choudhury:
+ * - Converted from default index route to `/donation` route for better navigation
+ * - minor change to variable naming (e.g., `usecampaign` → `userCampaigns`)
+ * - Added full inline documentation for context, logic, and UI
+ * - Modularised data fetching using `fetchData()` pattern inside `useEffect`
+ * - Added accessibility-friendly structure for component usage
+ * - UI logic extended with dynamic popup donation state tracking
+ *
+ * The core layout and logic are inspired by the tutorial but expanded for better UX and maintainability.
+ */
+
+
+
 // Import React and necessary hooks for state and lifecycle management
 import React, {useEffect , useContext , useState} from "react" ;
 

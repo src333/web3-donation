@@ -2,12 +2,31 @@ import React from "react";
 import Link from "next/link";
 
 /**
- * Footer Component
- * 
- * Displays contact details, navigation links, product placeholders, 
- * and a brief description of the mosque. 
- * Structured to support screen readers and keyboard navigation through proper layout.
- */
+* Footer Component
+* 
+* Displays contact details, navigation links, product placeholders, 
+* and a brief description of the mosque. 
+* Structured to support screen readers and keyboard navigation through proper layout.
+*/
+
+
+/**
+* Footer Component
+* 
+* Adapted from: Daulat Hussain’s Web3.0 Crowdfunding Tutorial
+* https://www.youtube.com/watch?v=AcXVKkYnu1c
+* 
+*  Enhancements by Sahar Choudhury:
+* - Replaced placeholder content with real mosque address, phone, and email
+* - Integrated Next.js <Link> for proper client-side navigation
+* - Added aria attributes and semantic html for accessibility (e.g., <address>, role, aria-labelledby)
+* - Introduced scalable data structures for useful links and contact info
+* - Switched from hardcoded anchors to proper routing and accessible design patterns
+* - Improved colour consistency and structure with Tailwind
+* 
+* Original structure retained for inspiration; logic and UI restructured for production-readiness.
+*/
+
 const Footer = () => {
   // Placeholder product list - intended to be replaced with dynamic marketplace features
   const productList = ["Market", "ERC20 Token", "Donation"];

@@ -1,3 +1,23 @@
+/**
+ * PopUp Component (Modal Donation Interface)
+ *
+ *  Originally Inspired by: Daulat Hussain's Web3.0 Crowdfunding Tutorial
+ *  https://www.youtube.com/watch?v=AcXVKkYnu1c&ab_channel=DaulatHussain
+ *
+ *  Enhancements by Sahar Choudhury:
+ * - mainly ux/us and accessibility improvments 
+ * - Implemented accessibility best practices (aria-labels, role, keyboard navigation) , adding keyboard and screen reader support
+ * - Refactored donation fetching using modern `useEffect` pattern
+ * - improved component structure with cleaner separation of header/body/footer
+ * - Added keyboard and screen reader support
+ * - Improved input handling with form validation and semantic labeling
+ * - Styled modal with Tailwind and hover/focus improvements
+ * - Added full error handling for async donation logic
+ * - Cleaned up modal background logic for better user experience
+ *
+ */
+
+
 import React ,{useState , useEffect}from 'react'
 
 /**

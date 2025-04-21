@@ -1,12 +1,23 @@
 import React from "react" ;
 
 /**
- * Menu Component
- * Renders a hamburger menu icon used typically for toggling navigation on mobile.
- *
- * Accessibility:
- * - Includes role and title for screen readers.
- */
+* Menu Component
+* Renders a hamburger menu icon used typically for toggling navigation on mobile.
+*
+* Accessibility:
+* - Includes role and title for screen readers.
+*/
+
+/**
+* Menu Component
+*
+*  Adapted from: Daulat Hussain’s Web3.0 Crowdfunding Tutorial
+* https://www.youtube.com/watch?v=AcXVKkYnu1c
+*
+*  Enhancements by Sahar Choudhury:
+* - Included descriptive JSDoc block for clarity
+*/
+
 
 const Menu = () => {
   return (

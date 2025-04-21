@@ -1,3 +1,16 @@
+/**
+ *  IndexRedirect Component
+ *
+ * This file is custom and NOT part of the tutorial structure its original contents have been move to donation.js.
+ * Introduced by Sahar Choudhury: to ensure clean routing logic.
+ *
+ * Purpose:
+ * - Automatically redirects from `/` to `/home`
+ * - Keeps landing page structure clean and semantic
+ */
+
+
+
 // pages/index.js
 // Import React hook and Next.js router utility
 import { useEffect } from "react";

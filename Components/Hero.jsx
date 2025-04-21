@@ -1,3 +1,20 @@
+/**
+* Hero Component
+*
+* Based on original tutorial by Daulat Hussain:
+* https://www.youtube.com/watch?v=AcXVKkYnu1c
+*
+*  Refactored & Extended by Sahar Choudhury:
+* - Added conditional admin logic to restrict campaign creation
+* - Improved accessibility (labels, placeholders, button aria usage)
+* - Fully documented JSX structure using inline JSX comments
+* - Restructured styling to align with mosque branding and Tailwind UX best practices
+* - Abstracted campaign form into stateful logic controlled via admin role only
+* - Replaced hardcoded colours with semantic Tailwind CSS classes (bg-green, hover states, etc.)
+* - Improved error handling and layout responsiveness
+*/
+
+
 //import React, {useState} from 'react'
 //import { useContext } from "react"; // remove 
 import React, { useContext, useState } from "react";
@@ -5,15 +22,15 @@ import { CrowdFundingContext } from "../Context/CrowdFunding"; // remove
 
 
 /**
- * Hero Component
- *
- * Displays the landing section of the homepage with a banner and conditional form.
- * If the user is an admin, they can create a new campaign using the form.
- *
- * Props:
- * - titleData (unused): potentially for future dynamic headings
- * - createCampaign (function): async handler to submit new campaign data
- */
+* Hero Component
+*
+* Displays the landing section of the homepage with a banner and conditional form.
+* If the user is an admin, they can create a new campaign using the form.
+*
+* Props:
+* - titleData (unused): potentially for future dynamic headings
+* - createCampaign (function): async handler to submit new campaign data
+*/
 const Hero = ({titleData , createCampaign}) => {
     const { isAdmin } = useContext(CrowdFundingContext); // Admin check for conditional rendering
      // Form state for creating a new campaign
