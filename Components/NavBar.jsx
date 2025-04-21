@@ -14,6 +14,21 @@ import { CrowdFundingContext } from "../Context/CrowdFunding";
  * - Accessibility best practices with aria attributes
  */
 
+
+/**
+* NavBar Component
+*
+* Original base inspired by: Daulat Hussain's Web3.0 Crowdfunding tutorial 
+* https://www.youtube.com/watch?v=AcXVKkYnu1c&ab_channel=DaulatHussain
+*
+* Customisations by [Sahar Choudhury]:
+* - Added wallet connection with admin role detection
+* - Dynamic routing for admin vs non-admin users
+* - Improved Tailwind styling and accessibility
+* - Mobile responsiveness and state management
+*/
+
+
 const NavBar = () => {
   const {currentAccount ,connectWallet , isAdmin} = useContext(CrowdFundingContext);
   const [isMenuOpen , setIsMenuOpen] = useState(false);
