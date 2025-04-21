@@ -1,5 +1,31 @@
 // SPDX-License-Identifier: UNLICENSED
 
+/**
+ * @title CrowdFunding Smart Contract (Enhanced Version)
+ * @author Sahar Choudhury
+ * @notice This contract allows admins to create campaigns and users to donate securely using ETH.
+ *
+ *  Based on Tutorial by Daulat Hussain:
+ * https://www.youtube.com/watch?v=AcXVKkYnu1c&ab_channel=DaulatHussain
+ *
+ *  Enhancements & Modifications:
+ * - Integrated OpenZeppelin's ReentrancyGuard for security against re-entrancy attacks
+ * - Introduced admin role management and contract owner logic (setAdmin, onlyAdmin, onlyOwner)
+ * - Added `timestamps[]` to track when each donation occurred
+ * - Implemented `deleteCampaign()` (soft delete) and `isDeleted` flag
+ * - Built `getCampaigns()` and `getAllCampaigns()` to support filtered and admin-level data
+ * - Added detailed NatSpec-style documentation for every function and structure
+ * - Added `createCampaignForTest()` for unit testing and spoof scenarios
+ * - Improved data integrity with `id` field for each campaign (ensures index alignment)
+ * - Added events for analytics, frontend UI sync, and transparency (DonationReceived, AdminUpdated, etc.)
+ *
+ *  Security Best Practices:
+ * - All donation transfers use `.call{value: amount}("")` with reentrancy protection
+ * - Access control handled via modifiers (`onlyOwner`, `onlyAdmin`)
+ *
+ *  Built with Solidity ^0.8.9 — no need for SafeMath due to built-in overflow checks
+ */
+
 // version with security updates
 pragma solidity ^0.8.9;
 
@@ -87,6 +113,14 @@ contract CrowdFunding is ReentrancyGuard {
         emit AdminUpdated(_admin, _status); // Emit event for transparency
     }
 
+    /**
+     * @notice Based on original tutorial implementation by Daulat Hussain.
+     * @dev Modified to:
+     * - Remove the `_owner` parameter — now uses `msg.sender` for security and simplicity.
+     * - Restricted access to admins only using `onlyAdmin` modifier.
+     * - Added input validation for deadline and target amount.
+     * - Emits a `CampaignCreated` event to enable frontend/off-chain listening.
+     */
     /// @notice Creates a new crowdfunding campaign
     /// @dev Only callable by an account marked as admin (checked via 'onlyAdmin' modifier)
     /// @param _title The title or name of the campaign
@@ -162,6 +196,14 @@ contract CrowdFunding is ReentrancyGuard {
         return numberOfCampaigns - 1;
     }
 
+    /**
+     * @notice Based on original tutorial implementation by Daulat Hussain.
+     * @dev Enhanced to:
+     * - Add reentrancy protection via OpenZeppelin’s `nonReentrant` modifier.
+     * - Include `timestamps[]` to record when each donation was made.
+     * - Emit structured events (`DonationReceived` and `DonationTransferred`) for logging and analytics.
+     * - Validate donation amounts and campaign deadlines.
+     */
     /// @notice Donate ETH to a specific campaign by its ID
     /// @dev Uses nonReentrant modifier to prevent reentrancy attacks (security via OpenZeppelin)
     /// @param _id The campaign ID to donate to
@@ -242,6 +284,13 @@ contract CrowdFunding is ReentrancyGuard {
         campaigns[_id].isDeleted = true;
     }
 
+    /**
+     * @notice  Based on original tutorial implementation by Daulat Hussain.
+     * @dev Improvements:
+     * - Corrected loop condition bug from tutorial (`for (uint i = 0; 1 < numberOfCampaigns; i++)`).
+     * - Filters out soft-deleted campaigns using the `isDeleted` flag.
+     * - Ensures only active campaigns are shown in the frontend.
+     */
     // View all campaigns
     /// @notice Returns all non-deleted campaigns stored in the contract
     /// @dev Performs a two-pass loop: first to count valid campaigns, second to copy them into memory
@@ -293,6 +342,12 @@ contract CrowdFunding is ReentrancyGuard {
         return allCampaigns;
     }
 
+    /**
+     * @notice Reused from tutorial to return donor data.
+     * @dev Extended to:
+     * - Include an additional return value: `timestamps[]` to show when each donation occurred.
+     * - Helps improve transparency in the frontend donation history.
+     */
     // View donators and amounts
     /// @notice Returns the full list of donors, donation amounts, and timestamps for a specific campaign
     /// @dev These arrays are aligned by index — index 0 of each array represents the first donation
