@@ -285,6 +285,86 @@ describe("Admin Access Control", function () {
   });
 
 
+  // =============================================
+// 🧪 Iteration 4 — Ledger & Admin Enhancements
+// =============================================
+describe("Iteration 4 - Ledger & Admin Utilities", function () {
+  let CrowdFunding;
+  let crowdFunding;
+  let owner;
+  let addr1;
+  let addr2;
+
+  beforeEach(async function () {
+    [owner, addr1, addr2] = await ethers.getSigners();
+    CrowdFunding = await ethers.getContractFactory("CrowdFunding");
+    crowdFunding = await CrowdFunding.deploy();
+    await crowdFunding.waitForDeployment();
+  });
+
+  it("Should correctly return admin status using isAdmin()", async function () {
+    await crowdFunding.setAdmin(addr1.address, true);
+
+    const isAdmin = await crowdFunding.isAdmin(addr1.address);
+    const isNotAdmin = await crowdFunding.isAdmin(addr2.address);
+
+    expect(isAdmin).to.be.true;
+    expect(isNotAdmin).to.be.false;
+  });
+
+  it("Should store donator address, amount, and timestamp correctly", async function () {
+    await crowdFunding.createCampaign("Ledger Test", "Tracking test", ethers.parseEther("2"), Math.floor(Date.now() / 1000) + 86400);
+    await crowdFunding.connect(addr1).donateToCampaign(0, { value: ethers.parseEther("1") });
+
+    const [donators, donations, timestamps] = await crowdFunding.getDonators(0);
+
+    expect(donators[0]).to.equal(addr1.address);
+    expect(donations[0]).to.equal(ethers.parseEther("1"));
+    expect(timestamps[0]).to.be.a("bigint");
+  });
+
+  it("Deleted campaigns should not appear in getCampaigns() but remain in getAllCampaigns()", async function () {
+    await crowdFunding.createCampaign("Soft Delete", "Should disappear from public", ethers.parseEther("1"), Math.floor(Date.now() / 1000) + 86400);
+    await crowdFunding.deleteCampaign(0);
+
+    const visibleCampaigns = await crowdFunding.getCampaigns(); // Should not include deleted
+    const allCampaigns = await crowdFunding.getAllCampaigns();  // Should include deleted
+
+    expect(visibleCampaigns.length).to.equal(0);
+    expect(allCampaigns.length).to.equal(1);
+    expect(allCampaigns[0].isDeleted).to.be.true;
+  });
+
+  it("Should prevent donations to a deleted campaign", async function () {
+    await crowdFunding.createCampaign("No Donations Please", "Test deletion safety", ethers.parseEther("1"), Math.floor(Date.now() / 1000) + 86400);
+    await crowdFunding.deleteCampaign(0);
+
+    await expect(
+      crowdFunding.connect(addr1).donateToCampaign(0, { value: ethers.parseEther("0.1") })
+    ).to.be.revertedWith("Cannot donate to a deleted campaign"); // This assumes the check is implemented
+  });
+
+  it("Should allow multiple admin addresses to donate", async function () {
+    // Promote addr1 and addr2 to admin
+    await crowdFunding.setAdmin(addr1.address, true);
+    await crowdFunding.setAdmin(addr2.address, true);
+
+    // Create a campaign
+    await crowdFunding.connect(owner).createCampaign("Admin Ledger Test", "Multiple admins", ethers.parseEther("2"), Math.floor(Date.now() / 1000) + 86400);
+
+    // Both admins donate
+    await crowdFunding.connect(addr1).donateToCampaign(0, { value: ethers.parseEther("0.5") });
+    await crowdFunding.connect(addr2).donateToCampaign(0, { value: ethers.parseEther("0.75") });
+
+    const [donators, donations] = await crowdFunding.getDonators(0);
+    expect(donators).to.include(addr1.address);
+    expect(donators).to.include(addr2.address);
+    expect(donations.length).to.equal(2);
+  });
+});
+
+
+
 
 
   

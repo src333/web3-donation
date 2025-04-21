@@ -217,6 +217,9 @@ contract CrowdFunding is ReentrancyGuard {
         // Load campaign from storage
         Campaign storage campaign = campaigns[_id];
 
+        // ensures softdeleted campaigns still cant be donated to
+        require(!campaign.isDeleted, "Cannot donate to a deleted campaign");
+
         // Ensure the campaign is still active
         require(block.timestamp < campaign.deadline, "Campaign expired");
 

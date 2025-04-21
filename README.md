@@ -1,94 +1,194 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Sahar Mosque - Blockchain-Based Mosque Crowdfunding Application
 
-## Getting Started
+This decentralised web application (DApp) enables transparent ETH donations to support the construction and operations of the Sahar Mosque. Built using **Next.js**, **TailwindCSS**, **Ethers.js (v6)**, **Solidity**, and **OpenZeppelin**, the platform provides secure, scalable, and easy-to-use donation tracking features for both the community users and admins.
 
-First, run the development server:
+## Folder Structure
+
+```
+├── components/
+│   ├── AdminDashboard/           # Charts, timelines, tables for admin analytics
+│       ├── AdminDashboard.jsx
+│       ├── CampaignPiechart.jsx
+│       ├── CamapignTable.jsx
+│       ├── ChartsPanel.jsx
+│       ├── DonationTimeline.jsx
+│       ├── StatsPanel.jsx
+│       ├── TotalEthPieChart.jsx
+│       ├── TransactionLedger.jsx
+│   ├── AboutPage/                # Pages: About, Contact, Education, Home
+│       ├── About.jsx
+│       ├── Contact.jsx
+│       ├── Education.jsx
+│       ├── Home.jsx
+│       ├── InfoCard.jsx
+│   ├── Card.jsx                  # Reusable campaign display cards
+│   ├── Footer.jsx                # Global footer with nav
+│   ├── Hero.jsx                  # Campaign creation section
+│   ├── Logo.jsx                  # SVG mosque logo
+│   ├── Menu.jsx                  # Mobile icon
+│   ├── NavBar.jsx                # Site navigation with wallet connect
+│   ├── PopUp.jsx                 # Donation modal popup
+
+├── context/
+│   ├── CrowdFunding.js           # All Web3 smart contract interactions
+│   ├── constants.js              # Contains ABI and contract address
+│   ├── CrowdFunding.json         # ABI to be moved from the /artifacts/contracts/CrowdFunding.sol/CrowdFunding.json route into  context/
+
+├── contracts/
+│   ├── CrowdFunding.sol          # Smart contract (admin, campaign, donation)
+│   ├── BadReceiver.sol           # Testing contract for security (reentrancy)
+
+├── pages/
+│   ├── index.js                  # Redirects to /home
+│   ├── _app.js                   # Wraps every page with NavBar + Footer
+│   ├── home.js                   # Landing page
+│   ├── about.js                  # About us page
+│   ├── contact.js                # Contact page
+│   ├── education.js              # Education/tutorial page
+│   ├── donation.js               # Campaign dashboard (main)
+│   ├── dashboard.js              # Admin-only dashboard
+
+├── public/images/               # Static images (used in Education guide)
+├── styles/globals.css           # Tailwind base styles
+├── scripts/deploy.js            # Deployment script for the contract
+├── test/test.js                 # Unit tests for CrowdFunding contract
+├── tailwind.config.js           # Tailwind config
+├── postcss.config.mjs           # Tailwind PostCSS config
+├── hardhat.config.js            # Hardhat network setup
+└── README.md                    # You are here!
+```
+
+## Installation Instructions
+
+> Ensure you have **Node.js**, **npm**, **MetaMask**, and **Hardhat** installed on your machine.
+
+### 1. Here is the Repository i used for version this project.
+
+```bash
+git clone https://github.com/src333/web3-donation.git
+cd web3-donation
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+## Blockchain Setup
+
+### 3. Install Hardhat
+
+```bash
+npm install --save-dev hardhat
+npx hardhat
+```
+
+Choose:
+
+- JavaScript project
+- Create sample files
+
+### 4. Start Local Blockchain
+
+```bash
+npx hardhat node
+```
+
+You’ll see 20 generated accounts. **Copy the first private key**, as this account will act as the **default contract deployer (also the admin)**.
+
+Example:
+
+```
+Account #0: 0xf39f...2266 (use this in MetaMask)
+Private Key: 0x59c6...abc
+```
+
+### 5. Deploy Smart Contract
+
+Open a new terminal window:
+
+```bash
+npx hardhat run scripts/deploy.js --network localhost
+```
+
+After deployment, note the **contract address** (you’ll need it in `context/constants.js`).
+
+## MetaMask Setup
+
+1. **Install MetaMask Extension**: https://metamask.io/
+2. Click the **account icon > Import account**
+3. Paste in the **private key** of `Account #0` from step 4 above
+4. Switch MetaMask network to **Localhost:8545**
+5. You’re now connected as the **admin**
+
+To simulate non-admins, import other accounts from Hardhat (accounts #1–#19).
+
+## Start the Frontend
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit: http://localhost:3000
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Run Tests
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```bash
+npx hardhat test
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+Tests are in `/test/test.js`
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Hosted Version (If Applicable)
 
-## Learn More
+> Provide a live version of your site (Vercel, Netlify, etc.)
 
-To learn more about Next.js, take a look at the following resources:
+** Live Demo:** https://stepney-mosque-dapp.vercel.app
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+## Features Overview
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Create Campaigns** (Admin only)
+- **Donate ETH to campaigns** with MetaMask
+- **Live transparency**: view donators and donations
+- **Admin Dashboard**: charts, timelines, tables (built with Recharts)
+- **Security**: OpenZeppelin’s `ReentrancyGuard` prevents exploit risks
+- **Education Page**: guide new users through crypto giving
+- **Fully Responsive**: built with TailwindCSS
+- **Modular Codebase**: scalable and maintainable file structure
 
-## Deploy on Vercel
+## Developer Log Summary
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project was developed over several iterations with full logs. Key development steps included:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+1. Initialised with `create-next-app`
+2. TailwindCSS and Hardhat setup
+3. Smart contract development (CrowdFunding & security contracts)
+4. MetaMask wallet integration using Ethers.js v6
+5. Campaign creation, donation, admin filtering, and data fetching
+6. Custom UI/UX with Tailwind + responsive layout
+7. Donation popup modal and wallet connection
+8. Full admin dashboard with charts, ledger, and timeline
+9. Frontend campaign pagination + scalability improvements
+10. Extensive codebase documentation (frontend + backend)
+11. Unit testing with `npx hardhat test`
+12. Smart contract security with OpenZeppelin
+13. About, Contact, Education, and Home pages created
+14. Fully responsive card-based UI for campaigns
+15. ETH chart visualisations and filtering added
+16. Fully commented smart contracts and all components
+17. Admin-only routes and dashboard functionality implemented
+18. All logs documented for transparency
 
-///////////
-// project flow:
-developer logs: iteration 1
+## Contact
 
-1. to get here i used the command "npm create next-app ./" to create the directory
-2. then i ran "npm run dev" , to see the defual page
-3. i removed contents fron global.css file as ill be making my own and deleted home.modules.css files
-4. i will deleted this current read me files and copy my process in the new one hardhat will create when we download its dependies
-5. i will also delete the api folder in pages , \_document.js and remove contents in index.js the start fresh
-6. installed tailwind via "npm install tailwindcss @tailwindcss/postcss postcss" or " npm install -D tailwindcss postcss autoprefixer" in the terminal , the
-7. follow the tailwind installation steps for a next.js project and i manually created tailwind.js and post.config.mjs as stated in their documentation
-8. install hardat via npm i hardhat , change hardhat version from "^2.22.19" to ^2.13.0
-9. initalise hardhat via "npx hardhat init" , configure it to use js and install recommended packages
-10. in terminal run "npm i ether" and "npm i ether web3modal"
-11. ive created a file called componenets to split up logic of the webpage into parts via componenets that will be called in the \_app.js file in pages folder , also created a context folder for later use
-12. i have implemented the logic for the first contracts
-13. i have developed the backend functionality that we will use to interact with the smart contract in the crowdfunding.js file
-14. i realised i accidently installed the wrong package , i installed ether not ethers , so i had to uninstall it user the command - "npm unitall ether" and install ethers using "npm i ethers"
-15. i have fully implemented to footer component with responsive design
-16. i implemented the backend index thats going to be the main part of the page between the header and footer but when rendering it , there was an error because my ethers package is V6 and the commands i am using is only suitable for ethers v5 so i had to unistall ethers again using the commanf "npm uninstall ethers" and reinstall ether v5 using "npm i ethers@5.7.2"
-17. i implemented the index.js file which sets up the structure and order of components to be rendered on the page
-18. i reinstalled ethers to use V6 as i considered it be future proof and allow use of better feature , i update outdate code to work with ether v6
-19. i impelemted the hero.jsx component in copmonents folder (where the campagin creation form will in)
-20. fully implented the card.jsx component to represent camapigns
-21. implemented the popup.jsx component the is responsibile for the popup that allows users to donate to campaigns when they click on their respective cards
-22. created unit test in test.js in test folder to test blockchain functions also using hardhat logs and console logs.
-23. sometimes transaction logs dont show up on metamask so youll have the refresh wallet in settings.
-24. i have edited my navbar and hero componenet to asynchronously update the GUIs based on login permissions with wallet address , admin address has been hardcoded and will need further security , i refine crowdfunding.js and \_app.js
-25. i ran "npm install @openzeppelin/contracts@latest" in the terminal to download dependacies thatll allow me to use a smart contract for secuirty purpose to maintain best practise
-26. i have update crowdfunding.sol to apply security best practises using openzeppelins security contract , also i create another contract called badreciever.sol to use as part of testing against Reentrancy issues
+For feedback or technical support:
 
-27. updates test.js with new unit test to check the new securty changes
+- Email: info@yourmosque.org.uk
+- GitHub: [src333](https://github.com/src333/web3-donation)
 
-28. i create a new route to naviagte to the admin dashboard via dashboard.js
-29. create a bunch of components need for the dashboard in the AdminDashboard folder within the componenets directory
-30. i ran "npm install recharts" to use to develop my charts components
-31. ive completed the second half of the dashboard , adding in a timeline graph with filtering abilities , transaction gui for transparency and an area to manage campaigns via different component files ive newly created.
-32. began building navigation pages , built home.js and a AboutPage folder thatll contain all the new pages and related components for navigation , create a Home.jsx file in there
-33. created an about.js and About.jsx for the about page
-34. created a contact.js and a Contact.jsx file in the AboutPage folder
-35. created a education.js and a Education.jsx file in the AboutPage folder
-36. copied and pasted contents of the index.js file to a donation.js file so it can now be correctly navigated to /donations route
-37. changed the colour schemes of header and footer for consitency and good ux/ui along with buttons and other features
-38. refined dashboard css for a more consistent colour scheme
-39. improve ux with cursors and highlights when hovering over certain features like buttons and navigation buttons for better clarity
-40. i edited the logo.jsx file to create an svg befitting of a website for a mosque , to logo replicates that off a mosque for good use of context and ui/ux
-41. i was planning to create a what do we do page but i decided to merge its contents with my current about.jsx page
-42. improve functionality for the campaigntable and transaction ledger so that its scalable by adding a page system when either too many transaction or campaings are made
-43. commented code for all componenets
-44. commented code for front-end crowfunding.js and contants.js files in context folder thoroughly
-45. commented all smart contracts using best practises
-46. commented all files in the pages folder
-47. commented the deploy script in my scripts folder
+## License
+
+This project is released under the [MIT License](https://opensource.org/licenses/MIT)
+
+> **Built with purpose to empower communities through decentralised transparency.**
