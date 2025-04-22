@@ -169,9 +169,9 @@ Tests are in `/test/test.js`
 
 ## Hosted Version (If Applicable)
 
-> Provide a live version of your site (Vercel, Netlify, etc.)
+> Provide a live version of your site
 
-** Live Demo:** https://stepney-mosque-dapp.vercel.app
+** Live Demo:** : url : havent deployed it
 
 ## Features Overview
 
