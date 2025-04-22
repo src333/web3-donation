@@ -285,9 +285,8 @@ describe("Admin Access Control", function () {
   });
 
 
-  // =============================================
+
 // 🧪 Iteration 4 — Ledger & Admin Enhancements
-// =============================================
 describe("Iteration 4 - Ledger & Admin Utilities", function () {
   let CrowdFunding;
   let crowdFunding;
