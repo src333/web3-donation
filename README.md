@@ -69,7 +69,19 @@ git clone https://github.com/src333/web3-donation.git
 cd web3-donation
 ```
 
+GitHub URL = https://github.com/src333/web3-donation
+
 ### 2. Install Dependencies
+
+**System Requirements**
+
+- [Node.js + npm](https://nodejs.org/en/download/) – Required for running the frontend and installing dependencies
+- [MetaMask](https://metamask.io/download.html) – Browser wallet for interacting with the blockchain
+- [Hardhat](https://hardhat.org/) – Used for local blockchain, contract compilation & testing
+
+> If you're new:  
+> Download and install **Node.js LTS** from the [official website](https://nodejs.org/en/download/).  
+> npm comes bundled with it automatically.
 
 ```bash
 npm install
@@ -117,10 +129,11 @@ After deployment, note the **contract address** (you’ll need it in `context/co
 ## MetaMask Setup
 
 1. **Install MetaMask Extension**: https://metamask.io/
-2. Click the **account icon > Import account**
-3. Paste in the **private key** of `Account #0` from step 4 above
-4. Switch MetaMask network to **Localhost:8545**
-5. You’re now connected as the **admin**
+2. Create an account if you dont have one and log-in
+3. Click the **account icon > Import account**
+4. Paste in the **private key** of `Account #0` from step 4 above
+5. Switch MetaMask network to **Localhost:8545**
+6. You’re now connected as the **admin**
 
 To simulate non-admins, import other accounts from Hardhat (accounts #1–#19).
 
