@@ -87,6 +87,10 @@ GitHub URL = https://github.com/src333/web3-donation
 npm install
 ```
 
+- note: sometimes when running this command a common issue is that then an extra folder in my zipped file , so make sure you cd into web-donation/ folder
+
+if its web-donation (6)/web-donation/.. , youd have to cd inot web-donation , if its just web-dation/.. then you can just cd in as normal
+
 ## Blockchain Setup
 
 ### 3. Install Hardhat
